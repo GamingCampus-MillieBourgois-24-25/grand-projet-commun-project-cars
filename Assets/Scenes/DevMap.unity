@@ -436,6 +436,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8375794085929502606, guid: 9aa261b0602f7c646850105a7f68e37b,
+        type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 9029198321613607684, guid: 9aa261b0602f7c646850105a7f68e37b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
