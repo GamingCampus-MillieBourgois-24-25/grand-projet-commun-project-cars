@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class PlayerCars : MonoBehaviour
 {
@@ -8,6 +7,8 @@ public class PlayerCars : MonoBehaviour
     
     // Car parameters
     [SerializeField] private float speed = 10f;
+    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float extraSteering = 2f;
 
 // Input system
     private float turnInput;
@@ -48,7 +49,12 @@ public class PlayerCars : MonoBehaviour
     
     private void Move()
     {
-        rb.AddForce(new Vector3(turnInput * speed, 0,0), ForceMode.Acceleration);
+        float currentSpeed = rb.velocity.magnitude;
+        float accelerationFactor = Mathf.Exp(-currentSpeed / maxSpeed);
+        float adjustedSpeed = speed * accelerationFactor;
+        
+        // Apply left-right movement based on input
+        rb.AddForce(new Vector3(turnInput * speed * extraSteering, 0, adjustedSpeed), ForceMode.Acceleration);
     }
 
 }
