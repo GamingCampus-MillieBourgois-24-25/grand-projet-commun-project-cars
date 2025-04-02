@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f2d69c44041501f4aab1c355410d67b2
+guid: 1337f33b3654d9a4fa8f2d3f24ceb6d2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 193251
   packageName: Arcade Vehicle Physics
   packageVersion: 1.4
-  assetPath: Assets/Ash Assets/Arcade Vehicle Physics/Scripts/ArcadeVehicleController.cs
+  assetPath: Assets/Ash Assets/Arcade Vehicle Physics/Scripts/SkidMarks.cs
   uploadId: 720953

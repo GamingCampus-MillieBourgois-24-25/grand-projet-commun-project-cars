@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: f2d69c44041501f4aab1c355410d67b2
-MonoImporter:
+guid: 3bf9b619c0ee5634e8e7e73a7c6e7837
+NativeFormatImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
+  mainObjectFileID: 2655988077585873504
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +11,5 @@ AssetOrigin:
   productId: 193251
   packageName: Arcade Vehicle Physics
   packageVersion: 1.4
-  assetPath: Assets/Ash Assets/Arcade Vehicle Physics/Scripts/ArcadeVehicleController.cs
+  assetPath: Assets/05-External/04-Project Settings/Physics Settings Preset.preset
   uploadId: 720953

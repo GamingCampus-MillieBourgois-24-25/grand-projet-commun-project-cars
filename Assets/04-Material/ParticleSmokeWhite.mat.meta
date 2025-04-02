@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: f2d69c44041501f4aab1c355410d67b2
-MonoImporter:
+guid: 5f4ba2523ea1de643bb0357f291c78e6
+NativeFormatImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +11,5 @@ AssetOrigin:
   productId: 193251
   packageName: Arcade Vehicle Physics
   packageVersion: 1.4
-  assetPath: Assets/Ash Assets/Arcade Vehicle Physics/Scripts/ArcadeVehicleController.cs
+  assetPath: Assets/04-Material/ParticleSmokeWhite.mat
   uploadId: 720953

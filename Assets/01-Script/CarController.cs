@@ -1,183 +1,312 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+namespace ArcadeVP
 {
-    [Header("References")]
-    [SerializeField] private Rigidbody carRB;
-    [SerializeField] private Transform[] rayPoints;
-    [SerializeField] private LayerMask drivable;
-    [SerializeField] private Transform accelerationPoint;
+    public class CarController : MonoBehaviour
+    {
+        public enum groundCheck { rayCast, sphereCaste };
+        public  enum MovementMode { Velocity, AngularVelocity };
+        [Header("General Settings")]
+        [SerializeField] private  MovementMode movementMode;
+        [SerializeField] private  groundCheck GroundCheck;
+        [SerializeField] private  LayerMask drivableSurface;
 
-    [Header("Suspension Settings")]
-    [SerializeField] private float springStiffness;
-    [SerializeField] private float damperStiffness;
-    [SerializeField] private float restLength;
-    [SerializeField] private float springTravel;
-    [SerializeField] private float wheelRadius;
-
-    [Header("Input Settings")] 
-    private float moveInput = 0;
-    private float steerInput = 0;
-    private IA_Steering steeringAction;
-    
-    [Header("Car Settings")]
-    [SerializeField] private float acceleration = 25f;
-    [SerializeField] private float maxSpeed = 100f;
-    [SerializeField] private float deceleration = 10f;
-    [SerializeField] private float steerStrength = 15f;
-    [SerializeField] private AnimationCurve turningCurve;
-    
-    private Vector3 currentCarLocalVelocity = Vector3.zero;
-    private float carVelocityRatio = 0;
-    
-    private int[] wheelsIsGrounded = new int [4];
-    private bool isGrounded = false;
-    
-    #region Unity Methods
-    
-    private void Awake()
-    {
-        steeringAction = new IA_Steering();
-    }
-    private void Start()
-    {
-        carRB = GetComponent<Rigidbody>();
-    }
-    
-    
-    private void FixedUpdate()
-    {
-        Suspension();
-        GroundCheck();
-        CalculateCarVelocity();
-        Movement();
-    }
-    
-    private void OnEnable()
-    {
-        steeringAction.Enable();
-    }
-    
-    private void OnDisable()
-    {
-        steeringAction.Disable();
-    }
-    
-    private void Update()
-    {
-        ProcessInput();
-    }
-    
-    #endregion
-    
-    #region Movement
-
-    private void Movement()
-    {
-        if (isGrounded)
-        {
-            Acceleration();
-            Deceleration();
-            Turn();
-        }
-    }
-
-    private void Acceleration()
-    {
-        carRB.AddForceAtPosition(acceleration * moveInput * transform.forward, accelerationPoint.position, ForceMode.Acceleration);
-    }
-    
-    private void Deceleration()
-    {
-        carRB.AddForceAtPosition( deceleration * moveInput * -transform.forward,accelerationPoint.position, ForceMode.Acceleration);
-    }
-
-    private void Turn()
-    {
-        carRB.AddTorque(
-            steerStrength * steerInput * turningCurve.Evaluate(carVelocityRatio) * Mathf.Sign(carVelocityRatio) *
-            transform.up, ForceMode.Acceleration);
-    }
-    
-    #endregion
-    
-    #region Car Status Check
-
-    private void GroundCheck()
-    {
-        int tempGroundedWheels = 0;
+        [Header("Vehicle Settings")]
+        [Tooltip("turn more while drifting (while holding space) only if kart Like is true")]
+        [SerializeField] private  float driftMultiplier = 1.5f;
+        [SerializeField] private  float MaxSpeed, accelaration, turn, gravity = 7f, downforce = 5f;
+        [Tooltip("if true : can turn vehicle in air")]
+        [SerializeField] private  bool AirControl = false;
+        [Tooltip("if true : vehicle will drift instead of brake while holding space")]
+        [SerializeField] private  bool kartLike = false;
         
-        for (int i = 0; i < wheelsIsGrounded.Length; i++)
+
+        [SerializeField] private  Rigidbody rb, carBody;
+
+        [HideInInspector]
+        public RaycastHit hit;
+        [Header("Friction Settings")]
+        [SerializeField] private  AnimationCurve frictionCurve;
+        [SerializeField] private  AnimationCurve turnCurve;
+        [SerializeField] private  PhysicMaterial frictionMaterial;
+        
+        [Header("Visuals")]
+        [SerializeField] private Transform BodyMesh;
+        [SerializeField] private  Transform[] FrontWheels = new Transform[2];
+        [SerializeField] private  Transform[] RearWheels = new Transform[2];
+        [HideInInspector]
+        public Vector3 carVelocity;
+        
+        [Range(0, 10)]
+        [SerializeField] private  float BodyTilt;
+        [Header("Audio settings")]
+        [SerializeField] private  AudioSource engineSound;
+        [Range(0, 1)]
+        [SerializeField] private  float minPitch;
+        [Range(1, 3)]
+        [SerializeField] private  float MaxPitch;
+        [SerializeField] private  AudioSource SkidSound;
+
+        [HideInInspector]
+        public float skidWidth;
+        
+        private IA_Steering steeringAction;
+        private float radius, steeringInput, accelerationInput, brakeInput;
+        private Vector3 origin;
+
+        
+        #region Unity Methods
+
+        private void Awake()
         {
-            tempGroundedWheels += wheelsIsGrounded[i];
+            steeringAction = new IA_Steering();
         }
         
-        if (tempGroundedWheels > 1)
+        private void OnEnable()
         {
-            isGrounded = true;
+            steeringAction.Enable();
         }
-        else
+        
+        private void OnDisable()
         {
-            isGrounded = false;
+            steeringAction.Disable();
         }
-    }
-    
-    private void CalculateCarVelocity()
-    {
-        currentCarLocalVelocity = transform.InverseTransformDirection(carRB.velocity);
-        carVelocityRatio = currentCarLocalVelocity.z / maxSpeed;
-    }
-    
-    #endregion
-    
-    #region Input Handling
-    
-    private void ProcessInput()
-    {
-        Vector2 steeringInput = steeringAction.Steering.Steering.ReadValue<Vector2>();
-        moveInput = steeringInput.y;
-        steerInput = steeringInput.x;
-    }
-    
-    #endregion
-    
-    #region Suspension Methods
-    private void Suspension()
-    {
-        for (int i = 0; i < rayPoints.Length; i++)
+        
+        private void Start()
         {
-            RaycastHit hit;
-            float maxLength = restLength + springTravel;
-            
-            if (Physics.Raycast(rayPoints[i].position,-rayPoints[i].up, out hit, maxLength + wheelRadius, drivable))
+            radius = rb.GetComponent<SphereCollider>().radius;
+            if (movementMode == MovementMode.AngularVelocity)
             {
-                wheelsIsGrounded[i] = 1;
-                
-                float currentSpringLength = hit.distance - wheelRadius;
-                float springCompression = (restLength - currentSpringLength) / springTravel;
+                Physics.defaultMaxAngularSpeed = 100;
+            }
+        }
 
-                float springVelocity = Vector3.Dot(carRB.GetPointVelocity(rayPoints[i].position), rayPoints[i].up);
-                float dampForce = damperStiffness * springVelocity;
-                
-                float springForce = springStiffness * springCompression;
-                
-                float netForce = springForce - dampForce;
-                
-                carRB.AddForceAtPosition(netForce * rayPoints[i].up, rayPoints[i].position);
-                
-                Debug.DrawLine(rayPoints[i].position, hit.point, Color.red);
+        private void Update()
+        {
+            Visuals();
+            AudioManager();
+            ProcessInputs();
+        }
+        
+        void FixedUpdate()
+        {
+            carVelocity = carBody.transform.InverseTransformDirection(carBody.velocity);
+
+            if (Mathf.Abs(carVelocity.x) > 0)
+            {
+                //changes friction according to sideways speed of car
+                frictionMaterial.dynamicFriction = frictionCurve.Evaluate(Mathf.Abs(carVelocity.x / 100));
+            }
+
+
+            if (grounded())
+            {
+                //turnlogic
+                float sign = Mathf.Sign(carVelocity.z);
+                float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / MaxSpeed);
+                if (kartLike && brakeInput > 0.1f) { TurnMultiplyer *= driftMultiplier; } //turn more if drifting
+
+
+                if (accelerationInput > 0.1f || carVelocity.z > 1)
+                {
+                    carBody.AddTorque(Vector3.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
+                }
+                else if (accelerationInput < -0.1f || carVelocity.z < -1)
+                {
+                    carBody.AddTorque(Vector3.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
+                }
+
+
+
+                // mormal brakelogic
+                if (!kartLike)
+                {
+                    if (brakeInput > 0.1f)
+                    {
+                        rb.constraints = RigidbodyConstraints.FreezeRotationX;
+                    }
+                    else
+                    {
+                        rb.constraints = RigidbodyConstraints.None;
+                    }
+                }
+
+                //accelaration logic
+
+                if (movementMode == MovementMode.AngularVelocity)
+                {
+                    if (Mathf.Abs(accelerationInput) > 0.1f && brakeInput < 0.1f && !kartLike)
+                    {
+                        rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, carBody.transform.right * accelerationInput * MaxSpeed / radius, accelaration * Time.deltaTime);
+                    }
+                    else if (Mathf.Abs(accelerationInput) > 0.1f && kartLike)
+                    {
+                        rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, carBody.transform.right * accelerationInput * MaxSpeed / radius, accelaration * Time.deltaTime);
+                    }
+                }
+                else if (movementMode == MovementMode.Velocity)
+                {
+                    if (Mathf.Abs(accelerationInput) > 0.1f && brakeInput < 0.1f && !kartLike)
+                    {
+                        rb.velocity = Vector3.Lerp(rb.velocity, carBody.transform.forward * accelerationInput * MaxSpeed, accelaration / 10 * Time.deltaTime);
+                    }
+                    else if (Mathf.Abs(accelerationInput) > 0.1f && kartLike)
+                    {
+                        rb.velocity = Vector3.Lerp(rb.velocity, carBody.transform.forward * accelerationInput * MaxSpeed, accelaration / 10 * Time.deltaTime);
+                    }
+                }
+
+                // down froce
+                rb.AddForce(-transform.up * downforce * rb.mass);
+
+                //body tilt
+                carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, hit.normal) * carBody.transform.rotation, 0.12f));
             }
             else
             {
-                wheelsIsGrounded[i] = 0;
-                // Optional: Draw debug line for visualization when not hitting anything
-                Debug.DrawLine(rayPoints[i].position, rayPoints[i].position + (wheelRadius + maxLength) * -rayPoints[i].up, Color.green);
+                if (AirControl)
+                {
+                    //turnlogic
+                    float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / MaxSpeed);
+
+                    carBody.AddTorque(Vector3.up * steeringInput * turn * 100 * TurnMultiplyer);
+                }
+
+                carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, Vector3.up) * carBody.transform.rotation, 0.02f));
+                rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity + Vector3.down * gravity, Time.deltaTime * gravity);
+            }
+
+        }
+
+        #endregion
+        
+        #region Input
+        private void ProcessInputs()
+        {
+            Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
+            steeringInput = input.x;
+            accelerationInput = input.y;
+        }
+        
+        #endregion
+
+        #region Audio And Visuals
+        public void AudioManager()
+        {
+            engineSound.pitch = Mathf.Lerp(minPitch, MaxPitch, Mathf.Abs(carVelocity.z) / MaxSpeed);
+            if (Mathf.Abs(carVelocity.x) > 10 && grounded())
+            {
+                SkidSound.mute = false;
+            }
+            else
+            {
+                SkidSound.mute = true;
             }
         }
-    }
-    
-    #endregion
+        
+        public void Visuals()
+        {
+            //tires
+            foreach (Transform FW in FrontWheels)
+            {
+                FW.localRotation = Quaternion.Slerp(FW.localRotation, Quaternion.Euler(FW.localRotation.eulerAngles.x,
+                                   30 * steeringInput, FW.localRotation.eulerAngles.z), 0.7f * Time.deltaTime / Time.fixedDeltaTime);
+                FW.GetChild(0).localRotation = rb.transform.localRotation;
+            }
+            RearWheels[0].localRotation = rb.transform.localRotation;
+            RearWheels[1].localRotation = rb.transform.localRotation;
 
+            //Body
+            if (carVelocity.z > 1)
+            {
+                BodyMesh.localRotation = Quaternion.Slerp(BodyMesh.localRotation, Quaternion.Euler(Mathf.Lerp(0, -5, carVelocity.z / MaxSpeed),
+                                   BodyMesh.localRotation.eulerAngles.y, BodyTilt * steeringInput), 0.4f * Time.deltaTime / Time.fixedDeltaTime);
+            }
+            else
+            {
+                BodyMesh.localRotation = Quaternion.Slerp(BodyMesh.localRotation, Quaternion.Euler(0, 0, 0), 0.4f * Time.deltaTime / Time.fixedDeltaTime);
+            }
+
+
+            if (kartLike)
+            {
+                if (brakeInput > 0.1f)
+                {
+                    BodyMesh.parent.localRotation = Quaternion.Slerp(BodyMesh.parent.localRotation,
+                    Quaternion.Euler(0, 45 * steeringInput * Mathf.Sign(carVelocity.z), 0),
+                    0.1f * Time.deltaTime / Time.fixedDeltaTime);
+                }
+                else
+                {
+                    BodyMesh.parent.localRotation = Quaternion.Slerp(BodyMesh.parent.localRotation,
+                    Quaternion.Euler(0, 0, 0),
+                    0.1f * Time.deltaTime / Time.fixedDeltaTime);
+                }
+
+            }
+
+        }
+        
+        #endregion
+
+        #region Car Status Check
+        
+        public bool grounded() //checks for if vehicle is grounded or not
+        {
+            origin = rb.position + rb.GetComponent<SphereCollider>().radius * Vector3.up;
+            var direction = -transform.up;
+            var maxdistance = rb.GetComponent<SphereCollider>().radius + 0.2f;
+
+            if (GroundCheck == groundCheck.rayCast)
+            {
+                if (Physics.Raycast(rb.position, Vector3.down, out hit, maxdistance, drivableSurface))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            else if (GroundCheck == groundCheck.sphereCaste)
+            {
+                if (Physics.SphereCast(origin, radius + 0.1f, direction, out hit, maxdistance, drivableSurface))
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else { return false; }
+        }
+        
+        #endregion
+
+        #region Debug
+        private void OnDrawGizmos()
+        {
+            //debug gizmos
+            radius = rb.GetComponent<SphereCollider>().radius;
+            float width = 0.02f;
+            if (!Application.isPlaying)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireCube(rb.transform.position + ((radius + width) * Vector3.down), new Vector3(2 * radius, 2 * width, 4 * radius));
+                if (GetComponent<BoxCollider>())
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawWireCube(transform.position, GetComponent<BoxCollider>().size);
+                }
+
+            }
+
+        }
+        
+        #endregion
+
+    }
 }
