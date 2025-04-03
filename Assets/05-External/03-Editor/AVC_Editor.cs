@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ArcadeVP
+namespace CarController
 {
     [CustomEditor(typeof(CarController))]
     public class AVC_Editor : Editor

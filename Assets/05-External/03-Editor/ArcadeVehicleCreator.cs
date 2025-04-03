@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-namespace ArcadeVP
+namespace CarController
 {
     public class ArcadeVehicleCreator : EditorWindow
     {

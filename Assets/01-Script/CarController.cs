@@ -1,9 +1,10 @@
 using UnityEngine;
 
-namespace ArcadeVP
+namespace CarController
 {
     public class CarController : MonoBehaviour
     {
+        #region Variables
         public enum groundCheck { rayCast, sphereCaste };
         public  enum MovementMode { Velocity, AngularVelocity };
         [Header("General Settings")]
@@ -53,6 +54,8 @@ namespace ArcadeVP
         private IA_Steering steeringAction;
         private float radius, steeringInput, accelerationInput, brakeInput;
         private Vector3 origin;
+        
+        #endregion
 
         
         #region Unity Methods
@@ -183,9 +186,22 @@ namespace ArcadeVP
         #region Input
         private void ProcessInputs()
         {
-            Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
-            steeringInput = input.x;
-            accelerationInput = input.y;
+            // Check if we have an input override component and it's active
+            CarControllerInputOverride inputOverride = GetComponent<CarControllerInputOverride>();
+            if (inputOverride != null && inputOverride.overrideInputs)
+            {
+                // Use the AI controller's inputs
+                steeringInput = inputOverride.steeringInput;
+                accelerationInput = inputOverride.accelerationInput;
+                brakeInput = inputOverride.brakeInput;
+            }
+            else
+            {
+                // Use the normal player input system
+                Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
+                steeringInput = input.x;
+                accelerationInput = input.y;
+            }
         }
         
         #endregion
