@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: ecced3aacfe9ee449930c039f383b7e6
-NativeFormatImporter:
+guid: 99f43f35d1a0e70449d2b4f5cd0be459
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +10,5 @@ AssetOrigin:
   productId: 200028
   packageName: Ash Vehicle AI
   packageVersion: 3.0
-  assetPath: Assets/04-Material/No Friction.physicMaterial
+  assetPath: Assets/Ash Assets/Ash Vehicle AI/other prefabs/Waypoint Painter.prefab
   uploadId: 582939

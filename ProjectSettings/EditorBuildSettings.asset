@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LevelTest.unity
+    guid: 4eef94a9a40592f44bb5bae17b8977cb
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
