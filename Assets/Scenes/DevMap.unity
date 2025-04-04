@@ -976,7 +976,7 @@ PrefabInstance:
     - target: {fileID: 6621075042036718753, guid: 9aa261b0602f7c646850105a7f68e37b,
         type: 3}
       propertyPath: AirControl
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6621075042036718753, guid: 9aa261b0602f7c646850105a7f68e37b,
         type: 3}
