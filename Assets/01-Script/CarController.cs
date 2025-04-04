@@ -56,7 +56,6 @@ namespace CarController
         private Vector3 origin;
         
         #endregion
-
         
         #region Unity Methods
 
@@ -201,6 +200,8 @@ namespace CarController
                 Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
                 steeringInput = input.x;
                 accelerationInput = input.y;
+                
+                brakeInput = steeringAction.Steering.Brake.ReadValue<float>();
             }
         }
         

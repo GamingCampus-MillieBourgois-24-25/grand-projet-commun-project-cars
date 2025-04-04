@@ -69,7 +69,9 @@ namespace AICarController
             Reset();
             if(circuit == null)
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 circuit = FindObjectOfType<WaypointCircuit>();
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             
         }

@@ -35,6 +35,15 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Value"",
+                    ""id"": ""98569316-0b10-4a57-abc7-e2b04156ecf4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -103,6 +112,28 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
                     ""action"": ""Steering"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1f57988-d22f-4a70-a9ce-e3432051ff78"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30f348a1-ebc4-4746-8967-b4942223a78e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -112,6 +143,7 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
         // Steering
         m_Steering = asset.FindActionMap("Steering", throwIfNotFound: true);
         m_Steering_Steering = m_Steering.FindAction("Steering", throwIfNotFound: true);
+        m_Steering_Brake = m_Steering.FindAction("Brake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -174,11 +206,13 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Steering;
     private List<ISteeringActions> m_SteeringActionsCallbackInterfaces = new List<ISteeringActions>();
     private readonly InputAction m_Steering_Steering;
+    private readonly InputAction m_Steering_Brake;
     public struct SteeringActions
     {
         private @IA_Steering m_Wrapper;
         public SteeringActions(@IA_Steering wrapper) { m_Wrapper = wrapper; }
         public InputAction @Steering => m_Wrapper.m_Steering_Steering;
+        public InputAction @Brake => m_Wrapper.m_Steering_Brake;
         public InputActionMap Get() { return m_Wrapper.m_Steering; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -191,6 +225,9 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
             @Steering.started += instance.OnSteering;
             @Steering.performed += instance.OnSteering;
             @Steering.canceled += instance.OnSteering;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
         }
 
         private void UnregisterCallbacks(ISteeringActions instance)
@@ -198,6 +235,9 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
             @Steering.started -= instance.OnSteering;
             @Steering.performed -= instance.OnSteering;
             @Steering.canceled -= instance.OnSteering;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
         }
 
         public void RemoveCallbacks(ISteeringActions instance)
@@ -218,5 +258,6 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
     public interface ISteeringActions
     {
         void OnSteering(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
 }
