@@ -18,13 +18,7 @@ namespace CarController
         MeshRenderer wheelMesh;
 
         private GameObject NewVehicle;
-
-        private const string DiscordUrl = "https://discord.gg/yU82FbNHcu";
-        private const string TutorilUrl = "https://youtu.be/2Sif8yKKl40?si=ZWJkGdyLkn4o0IHl";
-        private const string DocumentationUrl = "/Ash Assets/Arcade Vehicle Physics/Documentation/Documentation.pdf";
-        private const string AshDevAssets = "https://assetstore.unity.com/publishers/52093";
-
-
+        
         [MenuItem("Tools/Arcade Vehicle Physics")]
 
         static void OpenWindow()
@@ -36,87 +30,9 @@ namespace CarController
 
         private void OnGUI()
         {
-            DrawHelpAndTutorialsSection();
 
             DrawVehicleCreation();
 
-        }
-
-        private void DrawHelpAndTutorialsSection()
-        {
-            // Custom styles
-            var sectionStyle = new GUIStyle("Box")
-            {
-                padding = new RectOffset(10, 10, 10, 10),
-                margin = new RectOffset(5, 5, 5, 5)
-            };
-
-            var headerStyle = new GUIStyle(EditorStyles.boldLabel)
-            {
-                fontSize = 14,
-                alignment = TextAnchor.MiddleLeft,
-                normal = { textColor = new Color(0.2f, 0.6f, 1f) }
-            };
-
-            var buttonStyle = new GUIStyle(GUI.skin.button)
-            {
-                fontSize = 12,
-                fontStyle = FontStyle.Bold,
-                alignment = TextAnchor.MiddleLeft,
-                padding = new RectOffset(35, 10, 5, 5)
-            };
-
-            EditorGUILayout.BeginVertical(sectionStyle);
-
-            // Header
-            EditorGUILayout.LabelField("Help & Tutorials", headerStyle);
-            EditorGUILayout.Space(5);
-
-            // First Row
-            EditorGUILayout.BeginHorizontal();
-            {
-                // Documentation Button
-                GUI.backgroundColor = new Color(0.9f, 0.9f, 0.9f);
-                if (GUILayout.Button(new GUIContent("  Documentation", EditorGUIUtility.IconContent("_Help").image),
-                    buttonStyle, GUILayout.Height(28)))
-                {
-                    string doc_path = Application.dataPath + DocumentationUrl;
-                    Application.OpenURL("file://" + doc_path);
-                }
-
-                // Tutorial Button
-                GUI.backgroundColor = new Color(1f, 0.8f, 0.8f);
-                if (GUILayout.Button(new GUIContent("  Video Tutorials", EditorGUIUtility.IconContent("VideoPlayer Icon").image),
-                    buttonStyle, GUILayout.Height(28)))
-                {
-                    Application.OpenURL(TutorilUrl);
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            // Second Row
-            EditorGUILayout.BeginHorizontal();
-            {
-                // Discord Button
-                GUI.backgroundColor = new Color(0.8f, 0.8f, 1f);
-                if (GUILayout.Button(new GUIContent("  Join Discord", EditorGUIUtility.IconContent("BuildSettings.Web.Small").image),
-                    buttonStyle, GUILayout.Height(28)))
-                {
-                    Application.OpenURL(DiscordUrl);
-                }
-
-                // More Ash Dev Assets Button
-                GUI.backgroundColor = new Color(0.8f, 1f, 0.8f);
-                if (GUILayout.Button(new GUIContent("  Ash Dev Assets", EditorGUIUtility.IconContent("AssetStore Icon").image),
-                    buttonStyle, GUILayout.Height(28)))
-                {
-                    Application.OpenURL(AshDevAssets);
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            GUI.backgroundColor = Color.white; // Reset background color
-            EditorGUILayout.EndVertical();
         }
 
         private void DrawVehicleCreation()

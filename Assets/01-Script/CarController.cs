@@ -56,7 +56,6 @@ namespace CarController
         private Vector3 origin;
         
         #endregion
-
         
         #region Unity Methods
 
@@ -104,6 +103,7 @@ namespace CarController
 
             if (grounded())
             {
+                
                 //turnlogic
                 float sign = Mathf.Sign(carVelocity.z);
                 float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / MaxSpeed);
@@ -118,9 +118,7 @@ namespace CarController
                 {
                     carBody.AddTorque(Vector3.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
                 }
-
-
-
+                
                 // mormal brakelogic
                 if (!kartLike)
                 {
@@ -201,6 +199,9 @@ namespace CarController
                 Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
                 steeringInput = input.x;
                 accelerationInput = input.y;
+                
+                brakeInput = steeringAction.Steering.Brake.ReadValue<float>();
+        
             }
         }
         
