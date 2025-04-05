@@ -228,23 +228,23 @@ MonoBehaviour:
   - m_EditModeType: 1
     m_Knots:
     - Position:
-        x: 0
+        x: 5.194006
         y: 0
-        z: 0
+        z: 16.55619
       TangentIn:
         x: -0
         y: -0
-        z: -5.3863444
+        z: -21.301868
       TangentOut:
         x: 0
         y: 0
-        z: 5.3863444
+        z: 17.175217
       Rotation:
         value:
-          x: -0.000000065513305
-          y: -0.37985432
-          z: -0.000000026901903
-          w: 0.9250463
+          x: -0.000000045983235
+          y: -0.63231903
+          z: 0.00000001258649
+          w: 0.77470803
     - Position:
         x: -37.85338
         y: 0.0000076293945
@@ -252,17 +252,17 @@ MonoBehaviour:
       TangentIn:
         x: -0
         y: -0
-        z: -17.528288
+        z: -14.912259
       TangentOut:
         x: 0
         y: 0
-        z: 19.166338
+        z: 17.23074
       Rotation:
         value:
-          x: -0.000000037317626
-          y: -0.20623843
-          z: -0.000000006670066
-          w: 0.97850174
+          x: -0.000000045985033
+          y: -0.2845967
+          z: -0.0000000057159952
+          w: 0.9586474
     - Position:
         x: -41.17752
         y: 0.0000076293945
@@ -324,19 +324,19 @@ MonoBehaviour:
       TangentIn:
         x: -0
         y: -0
-        z: -23.703209
+        z: -21.702227
       TangentOut:
         x: 0
         y: 0
-        z: 23.786118
+        z: 20.708244
       Rotation:
         value:
-          x: 0.000007105787
-          y: 0.92219824
-          z: 0.00003520989
-          w: -0.38671753
+          x: 0.00000658402
+          y: 0.9018762
+          z: 0.000038423084
+          w: -0.4319945
     m_MetaData:
-    - Mode: 4
+    - Mode: 0
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
@@ -368,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 217375744}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.014006, y: 22.35, z: 42.94381}
+  m_LocalPosition: {x: -20.014006, y: 0.03, z: 42.94381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
