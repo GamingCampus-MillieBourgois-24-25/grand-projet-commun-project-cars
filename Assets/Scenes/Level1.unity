@@ -25283,6 +25283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6621075042036718753, guid: 9aa261b0602f7c646850105a7f68e37b,
         type: 3}
+      propertyPath: kartLike
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621075042036718753, guid: 9aa261b0602f7c646850105a7f68e37b,
+        type: 3}
       propertyPath: drivableSurface.m_Bits
       value: 64
       objectReference: {fileID: 0}
@@ -33337,7 +33342,7 @@ GameObject:
   - component: {fileID: 1737672981}
   m_Layer: 6
   m_Name: Cube (251)
-  m_TagString: Untagged
+  m_TagString: ignoreSensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33364,7 +33369,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737672979}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ecced3aacfe9ee449930c039f383b7e6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -41376,7 +41381,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138362165}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ecced3aacfe9ee449930c039f383b7e6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
