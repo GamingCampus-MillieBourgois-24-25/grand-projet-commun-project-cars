@@ -53,6 +53,22 @@ public class SplineSampler : MonoBehaviour
         }
     }
     
+    private void ConfigurerMateriauxDoubleFace()
+    {
+        // Configuration du matériau de la route pour être visible des deux côtés
+        if (roadMaterial != null)
+        {
+            // Désactiver le culling pour voir les deux faces
+            roadMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+        }
+    
+        // Configuration du matériau des bordures pour être visible des deux côtés
+        if (curbMaterial != null)
+        {
+            curbMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+        }
+    }
+    
     public void GenererRoute()
     {
         if (splineContainer == null || splineContainer.Spline == null)
@@ -60,11 +76,14 @@ public class SplineSampler : MonoBehaviour
             Debug.LogError("SplineContainer manquant!");
             return;
         }
-        
+
+        // Configurer les matériaux pour être visibles des deux côtés
+        ConfigurerMateriauxDoubleFace();
+
         // Générer la route
         Mesh roadMesh = CreerMeshRoute();
         meshFilter.sharedMesh = roadMesh;
-        
+
         // Générer les bordures
         if (generateCurbs)
         {
@@ -106,96 +125,120 @@ public class SplineSampler : MonoBehaviour
         GameObject bordure = new GameObject();
         MeshFilter meshFilter = bordure.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = bordure.AddComponent<MeshRenderer>();
-
+    
         if (curbMaterial != null)
-            meshRenderer.sharedMaterial = curbMaterial;
+        meshRenderer.sharedMaterial = curbMaterial;
         else
-            Debug.LogWarning("Aucun matériau de bordure assigné!");
+        Debug.LogWarning("Aucun matériau de bordure assigné!");
 
         Mesh mesh = new Mesh();
-
+    
         Vector3[] vertices = new Vector3[resolution * 4];
         Vector2[] uvs = new Vector2[resolution * 4];
-        int[] triangles = new int[(resolution - 1) * 12];
-
+        int[] triangles = new int[(resolution - 1) * 24];
+    
         float roadOffset = (roadWidth * 0.5f) * cote;
         float curbOffset = curbWidth * cote;
-
-        // Transformer la position de la spline
         Transform splineTransform = splineContainer.transform;
-
+    
+        // Calcul simplifié pour éviter le problème des bordures au centre
         for (int i = 0; i < resolution; i++)
         {
-            float t = i / (float)(resolution - 1);
+        float t = i / (float)(resolution - 1);
+        float3 position = spline.EvaluatePosition(t);
+        position = splineTransform.TransformPoint(position);
 
-            // Évaluer la position et la tangente dans l'espace monde
-            float3 position = spline.EvaluatePosition(t);
-            position = splineTransform.TransformPoint(position);
+        float3 tangent = spline.EvaluateTangent(t);
+        tangent = splineTransform.TransformDirection(tangent);
 
-            float3 tangent = spline.EvaluateTangent(t);
-            tangent = splineTransform.TransformDirection(tangent);
+        float3 up = new float3(0, 1, 0);
+        float3 normal = math.normalize(math.cross(tangent, up));
 
-            float3 up = new float3(0, 1, 0);
-            float3 normal = math.normalize(math.cross(tangent, up));
+        // Application directe des offsets sans ajustement de courbure
+        Vector3 roadPoint = new Vector3(position.x, position.y, position.z) + (new Vector3(normal.x, normal.y, normal.z) * roadOffset);
+        Vector3 curbPoint = new Vector3(position.x, position.y, position.z) + (new Vector3(normal.x, normal.y, normal.z) * (roadOffset + curbOffset));
 
-            // Calculer le point de la route et le point de la bordure
-            Vector3 roadPoint = new Vector3(position.x, position.y, position.z) + (new Vector3(normal.x, normal.y, normal.z) * roadOffset);
-            Vector3 curbPoint = new Vector3(position.x, position.y, position.z) + (new Vector3(normal.x, normal.y, normal.z) * (roadOffset + curbOffset));
+        vertices[i * 4] = transform.InverseTransformPoint(roadPoint);
+        vertices[i * 4 + 1] = transform.InverseTransformPoint(curbPoint);
+        vertices[i * 4 + 2] = transform.InverseTransformPoint(new Vector3(roadPoint.x, roadPoint.y + curbHeight, roadPoint.z));
+        vertices[i * 4 + 3] = transform.InverseTransformPoint(new Vector3(curbPoint.x, curbPoint.y + curbHeight, curbPoint.z));
 
-            // Points de base
-            vertices[i * 4] = transform.InverseTransformPoint(roadPoint);
-            vertices[i * 4 + 1] = transform.InverseTransformPoint(curbPoint);
-            // Points en hauteur
-            vertices[i * 4 + 2] = transform.InverseTransformPoint(new Vector3(roadPoint.x, roadPoint.y + curbHeight, roadPoint.z));
-            vertices[i * 4 + 3] = transform.InverseTransformPoint(new Vector3(curbPoint.x, curbPoint.y + curbHeight, curbPoint.z));
+        uvs[i * 4] = new Vector2(0, t * textureStretch);
+        uvs[i * 4 + 1] = new Vector2(1, t * textureStretch);
+        uvs[i * 4 + 2] = new Vector2(0, t * textureStretch + 0.5f);
+        uvs[i * 4 + 3] = new Vector2(1, t * textureStretch + 0.5f);
 
-            // UV pour une texture correcte
-            uvs[i * 4] = new Vector2(0, t * textureStretch);
-            uvs[i * 4 + 1] = new Vector2(1, t * textureStretch);
-            uvs[i * 4 + 2] = new Vector2(0, t * textureStretch + 0.5f);
-            uvs[i * 4 + 3] = new Vector2(1, t * textureStretch + 0.5f);
+        if (i < resolution - 1)
+        {
+            int baseIdx = i * 4;
+            int nextBaseIdx = (i + 1) * 4;
+            int backfaceOffset = (resolution - 1) * 12;
 
-            if (i < resolution - 1)
-            {
-                int baseIdx = i * 4;
-                int nextBaseIdx = (i + 1) * 4;
+            // Face avant (selon le côté)
+            if (cote == -1) {
+                // Face avant normale
+                triangles[i * 12] = baseIdx;
+                triangles[i * 12 + 1] = nextBaseIdx;
+                triangles[i * 12 + 2] = baseIdx + 2;
 
-                // Face avant (selon le côté)
-                if (cote == -1) {
-                    triangles[i * 12] = baseIdx;
-                    triangles[i * 12 + 1] = nextBaseIdx;
-                    triangles[i * 12 + 2] = baseIdx + 2;
+                triangles[i * 12 + 3] = baseIdx + 2;
+                triangles[i * 12 + 4] = nextBaseIdx;
+                triangles[i * 12 + 5] = nextBaseIdx + 2;
 
-                    triangles[i * 12 + 3] = baseIdx + 2;
-                    triangles[i * 12 + 4] = nextBaseIdx;
-                    triangles[i * 12 + 5] = nextBaseIdx + 2;
-                } else {
-                    triangles[i * 12] = baseIdx;
-                    triangles[i * 12 + 1] = baseIdx + 2;
-                    triangles[i * 12 + 2] = nextBaseIdx;
+                // Face avant inversée (face arrière)
+                triangles[backfaceOffset + i * 12] = nextBaseIdx;
+                triangles[backfaceOffset + i * 12 + 1] = baseIdx;
+                triangles[backfaceOffset + i * 12 + 2] = nextBaseIdx + 2;
 
-                    triangles[i * 12 + 3] = nextBaseIdx;
-                    triangles[i * 12 + 4] = baseIdx + 2;
-                    triangles[i * 12 + 5] = nextBaseIdx + 2;
-                }
+                triangles[backfaceOffset + i * 12 + 3] = nextBaseIdx + 2;
+                triangles[backfaceOffset + i * 12 + 4] = baseIdx;
+                triangles[backfaceOffset + i * 12 + 5] = baseIdx + 2;
+            } else {
+                // Face avant normale
+                triangles[i * 12] = baseIdx;
+                triangles[i * 12 + 1] = baseIdx + 2;
+                triangles[i * 12 + 2] = nextBaseIdx;
 
-                // Face du dessus
-                triangles[i * 12 + 6] = baseIdx + 2;
-                triangles[i * 12 + 7] = nextBaseIdx + 2;
-                triangles[i * 12 + 8] = baseIdx + 3;
+                triangles[i * 12 + 3] = nextBaseIdx;
+                triangles[i * 12 + 4] = baseIdx + 2;
+                triangles[i * 12 + 5] = nextBaseIdx + 2;
 
-                triangles[i * 12 + 9] = baseIdx + 3;
-                triangles[i * 12 + 10] = nextBaseIdx + 2;
-                triangles[i * 12 + 11] = nextBaseIdx + 3;
+                // Face avant inversée (face arrière)
+                triangles[backfaceOffset + i * 12] = baseIdx + 2;
+                triangles[backfaceOffset + i * 12 + 1] = baseIdx;
+                triangles[backfaceOffset + i * 12 + 2] = nextBaseIdx + 2;
+
+                triangles[backfaceOffset + i * 12 + 3] = nextBaseIdx + 2;
+                triangles[backfaceOffset + i * 12 + 4] = baseIdx;
+                triangles[backfaceOffset + i * 12 + 5] = nextBaseIdx;
             }
-        }
 
+            // Face du dessus normale
+            triangles[i * 12 + 6] = baseIdx + 2;
+            triangles[i * 12 + 7] = nextBaseIdx + 2;
+            triangles[i * 12 + 8] = baseIdx + 3;
+
+            triangles[i * 12 + 9] = baseIdx + 3;
+            triangles[i * 12 + 10] = nextBaseIdx + 2;
+            triangles[i * 12 + 11] = nextBaseIdx + 3;
+
+            // Face du dessus inversée
+            triangles[backfaceOffset + i * 12 + 6] = nextBaseIdx + 2;
+            triangles[backfaceOffset + i * 12 + 7] = baseIdx + 2;
+            triangles[backfaceOffset + i * 12 + 8] = nextBaseIdx + 3;
+
+            triangles[backfaceOffset + i * 12 + 9] = nextBaseIdx + 3;
+            triangles[backfaceOffset + i * 12 + 10] = baseIdx + 2;
+            triangles[backfaceOffset + i * 12 + 11] = baseIdx + 3;
+        }
+        }
+    
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
-
+    
         meshFilter.sharedMesh = mesh;
         return bordure;
     }
@@ -204,62 +247,67 @@ public class SplineSampler : MonoBehaviour
     {
         Spline spline = splineContainer.Spline;
         Mesh mesh = new Mesh();
-    
+
         Vector3[] vertices = new Vector3[resolution * 2];
         Vector2[] uvs = new Vector2[resolution * 2];
-        int[] triangles = new int[(resolution - 1) * 6];
-    
+        // Double le nombre de triangles pour avoir des faces des deux côtés
+        int[] triangles = new int[(resolution - 1) * 12];
+
         float halfWidth = roadWidth * 0.5f;
-        
-        // Transformer la position de la spline
         Transform splineTransform = splineContainer.transform;
-    
+
         for (int i = 0; i < resolution; i++)
         {
             float t = i / (float)(resolution - 1);
-    
-            // Évaluer la position et la tangente dans l'espace monde
             float3 position = spline.EvaluatePosition(t);
             position = splineTransform.TransformPoint(position);
-            
+
             float3 tangent = spline.EvaluateTangent(t);
             tangent = splineTransform.TransformDirection(tangent);
-            
+
             float3 up = new float3(0, 1, 0);
             float3 normal = math.normalize(math.cross(tangent, up));
-    
-            // Calculer les points gauche et droite
+
             Vector3 leftPoint = new Vector3(position.x, position.y, position.z) - (new Vector3(normal.x, normal.y, normal.z) * halfWidth);
             Vector3 rightPoint = new Vector3(position.x, position.y, position.z) + (new Vector3(normal.x, normal.y, normal.z) * halfWidth);
-    
-            // Les convertir en espace local
+
             vertices[i * 2] = transform.InverseTransformPoint(leftPoint);
             vertices[i * 2 + 1] = transform.InverseTransformPoint(rightPoint);
-    
+
             uvs[i * 2] = new Vector2(0, t * textureStretch);
             uvs[i * 2 + 1] = new Vector2(1, t * textureStretch);
-    
+
             if (i < resolution - 1)
             {
                 int baseIdx = i * 2;
                 int nextBaseIdx = (i + 1) * 2;
-    
-                triangles[i * 6] = baseIdx;
-                triangles[i * 6 + 1] = baseIdx + 1;
-                triangles[i * 6 + 2] = nextBaseIdx;
-    
-                triangles[i * 6 + 3] = nextBaseIdx;
-                triangles[i * 6 + 4] = baseIdx + 1;
-                triangles[i * 6 + 5] = nextBaseIdx + 1;
+
+                // Face avant (visible du dessus)
+                triangles[i * 12] = baseIdx;
+                triangles[i * 12 + 1] = baseIdx + 1;
+                triangles[i * 12 + 2] = nextBaseIdx;
+
+                triangles[i * 12 + 3] = nextBaseIdx;
+                triangles[i * 12 + 4] = baseIdx + 1;
+                triangles[i * 12 + 5] = nextBaseIdx + 1;
+
+                // Face arrière (visible du dessous) - ordre des sommets inversé
+                triangles[i * 12 + 6] = baseIdx + 1;
+                triangles[i * 12 + 7] = baseIdx;
+                triangles[i * 12 + 8] = nextBaseIdx + 1;
+
+                triangles[i * 12 + 9] = nextBaseIdx + 1;
+                triangles[i * 12 + 10] = baseIdx;
+                triangles[i * 12 + 11] = nextBaseIdx;
             }
         }
-    
+
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
-    
+
         return mesh;
     }
 
