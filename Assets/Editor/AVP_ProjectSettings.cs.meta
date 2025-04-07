@@ -1,2 +1,9 @@
 fileFormatVersion: 2
 guid: 609a664176f92cd45896f847b067a9f5
+AssetOrigin:
+  serializedVersion: 1
+  productId: 193251
+  packageName: Arcade Vehicle Physics
+  packageVersion: 
+  assetPath: Assets/Editor/AVP_ProjectSettings.cs
+  uploadId: 0

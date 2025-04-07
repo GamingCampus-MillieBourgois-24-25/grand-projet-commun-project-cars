@@ -1,0 +1,173 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CustomizeCar : MonoBehaviour
+{
+    [Header("Préfabs")]
+    [Tooltip("Liste des préfabs de voiture disponibles")]
+    public GameObject[] carPrefabs;
+
+    // Voiture actuellement affichée
+    private GameObject currentCar;
+
+    // Index du préfab actuel dans le tableau
+    private int currentIndex = 0;
+
+    private void Start()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.VoitureSelectionneeIndex >= 0)
+        {
+            currentIndex = GameManager.Instance.VoitureSelectionneeIndex;
+        }
+    
+        if (carPrefabs.Length > 0)
+        {
+            ChargerVoiture(currentIndex);
+        }
+        else
+        {
+            Debug.LogWarning("Aucun préfab de voiture n'a été assigné.");
+        }
+    }
+
+    // Passer à la voiture suivante
+    public void Next()
+    {
+        if (carPrefabs.Length == 0) return;
+
+        currentIndex++;
+        if (currentIndex >= carPrefabs.Length)
+        {
+            currentIndex = 0;
+        }
+
+        ChargerVoiture(currentIndex);
+    
+        // Sauvegarder la sélection
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.DefinirVoitureSelectionnee(currentIndex);
+        }
+    }
+
+    // Revenir à la voiture précédente
+    public void Previous()
+    {
+        if (carPrefabs.Length == 0) return;
+
+        currentIndex--;
+        if (currentIndex < 0)
+        {
+            currentIndex = carPrefabs.Length - 1; // Aller à la fin si on dépasse le début
+        }
+
+        ChargerVoiture(currentIndex);
+        
+        // Sauvegarder la sélection
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.DefinirVoitureSelectionnee(currentIndex);
+        }
+    }
+
+    // Fonction pour charger une voiture spécifique
+    private void ChargerVoiture(int index)
+    {
+        // Détruire la voiture actuelle si elle existe
+        if (currentCar != null)
+        {
+            Destroy(currentCar);
+        }
+
+        // Créer la nouvelle voiture à la position et rotation de ce GameObject
+        if (carPrefabs[index] != null)
+        {
+            currentCar = Instantiate(
+                carPrefabs[index],
+                transform.position,
+                transform.rotation,
+                this.transform
+            );
+        }
+        else
+        {
+            Debug.LogError($"Le préfab à l'index {index} est null.");
+        }
+    }
+
+    // Retourne l'index de la voiture actuellement affichée
+    public int ObtenirIndexActuel()
+    {
+        return currentIndex;
+    }
+
+    // Retourne le nombre total de voitures disponibles
+    public int ObtenirNombreVoitures()
+    {
+        return carPrefabs.Length;
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Dessiner un cube à la position du GameObject
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, Vector3.one * 0.5f);
+
+        // Dessiner une flèche pour l'axe Z (avant)
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.forward * 0.7f);
+        DrawArrowTip(transform.position + transform.forward * 0.7f, transform.forward, Color.red);
+
+        // Dessiner une ligne pour l'axe Y (haut)
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.up * 0.5f);
+
+        // Dessiner une ligne pour l'axe X (droite)
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, transform.right * 0.5f);
+
+        // Étiquette pour identifier le spawn
+        Gizmos.color = Color.white;
+#if UNITY_EDITOR
+        UnityEditor.Handles.Label(transform.position + Vector3.up * 0.6f, "Point de spawn");
+#endif
+    }
+
+    // Dessine la pointe d'une flèche
+    private void DrawArrowTip(Vector3 position, Vector3 direction, Color color)
+    {
+        Vector3 right = Vector3.Cross(Vector3.up, direction).normalized * 0.1f;
+        if (right == Vector3.zero)
+            right = Vector3.Cross(Vector3.forward, direction).normalized * 0.1f;
+        Vector3 up = Vector3.Cross(direction, right).normalized * 0.1f;
+
+        Gizmos.color = color;
+        Gizmos.DrawRay(position, -direction * 0.2f + right);
+        Gizmos.DrawRay(position, -direction * 0.2f - right);
+        Gizmos.DrawRay(position, -direction * 0.2f + up);
+        Gizmos.DrawRay(position, -direction * 0.2f - up);
+    }
+    
+    // Sauvegarde le choix actuel de la voiture
+    public void SauvegarderChoixVoiture()
+    {
+        PlayerPrefs.SetInt("VoitureSelectionneeIndex", currentIndex);
+        PlayerPrefs.Save();
+    }
+
+// Charge le choix de voiture précédemment sauvegardé
+    public void ChargerChoixVoiture()
+    {
+        if (PlayerPrefs.HasKey("VoitureSelectionneeIndex"))
+        {
+            int savedIndex = PlayerPrefs.GetInt("VoitureSelectionneeIndex");
+            if (savedIndex >= 0 && savedIndex < carPrefabs.Length)
+            {
+                currentIndex = savedIndex;
+                ChargerVoiture(currentIndex);
+            }
+        }
+    }
+    
+}
