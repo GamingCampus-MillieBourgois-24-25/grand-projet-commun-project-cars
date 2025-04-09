@@ -16,10 +16,6 @@ public class CustomizeCar : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance != null && GameManager.Instance.VoitureSelectionneeIndex >= 0)
-        {
-            currentIndex = GameManager.Instance.VoitureSelectionneeIndex;
-        }
     
         if (carPrefabs.Length > 0)
         {
@@ -43,12 +39,7 @@ public class CustomizeCar : MonoBehaviour
         }
 
         ChargerVoiture(currentIndex);
-    
-        // Sauvegarder la sélection
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.DefinirVoitureSelectionnee(currentIndex);
-        }
+        
     }
 
     // Revenir à la voiture précédente
@@ -64,11 +55,6 @@ public class CustomizeCar : MonoBehaviour
 
         ChargerVoiture(currentIndex);
         
-        // Sauvegarder la sélection
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.DefinirVoitureSelectionnee(currentIndex);
-        }
     }
 
     // Fonction pour charger une voiture spécifique
@@ -152,22 +138,13 @@ public class CustomizeCar : MonoBehaviour
     // Sauvegarde le choix actuel de la voiture
     public void SauvegarderChoixVoiture()
     {
-        PlayerPrefs.SetInt("VoitureSelectionneeIndex", currentIndex);
-        PlayerPrefs.Save();
     }
 
 // Charge le choix de voiture précédemment sauvegardé
     public void ChargerChoixVoiture()
     {
-        if (PlayerPrefs.HasKey("VoitureSelectionneeIndex"))
-        {
-            int savedIndex = PlayerPrefs.GetInt("VoitureSelectionneeIndex");
-            if (savedIndex >= 0 && savedIndex < carPrefabs.Length)
-            {
-                currentIndex = savedIndex;
-                ChargerVoiture(currentIndex);
-            }
-        }
+
     }
     
 }
+
