@@ -5005,7 +5005,7 @@ GameObject:
   - component: {fileID: 9054995395205515361}
   m_Layer: 0
   m_Name: Hatchback
-  m_TagString: Untagged
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5055,7 +5055,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f75f22b8ca503c749a07c0c9dc572ded, type: 2}
+  - {fileID: 2100000, guid: aabda4169bd5391408a23fd6f7e4d7bb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

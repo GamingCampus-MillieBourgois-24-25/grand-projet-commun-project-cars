@@ -5273,7 +5273,7 @@ GameObject:
   - component: {fileID: 5214181243923165908}
   - component: {fileID: 5817243479883471560}
   m_Layer: 7
-  m_Name: Arcade_Voiture_easteregg_VF
+  m_Name: VROOOM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20719,7 +20719,7 @@ GameObject:
   - component: {fileID: 6189012777549294227}
   m_Layer: 0
   m_Name: mod_carrosserie1
-  m_TagString: Untagged
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20769,7 +20769,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 50435510e9570a24f8ed399caa5d0bda, type: 2}
+  - {fileID: 2100000, guid: cdc573f124a77954fa4c5f0abe78f60e, type: 2}
   - {fileID: -7536734110233476414, guid: d2998be43e0743d4c9485b67a6d877ea, type: 3}
   - {fileID: -7790725363118894749, guid: d2998be43e0743d4c9485b67a6d877ea, type: 3}
   - {fileID: -4514953429234291057, guid: d2998be43e0743d4c9485b67a6d877ea, type: 3}

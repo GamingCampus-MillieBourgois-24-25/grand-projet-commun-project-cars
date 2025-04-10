@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CustomizeCar : MonoBehaviour
 {
     [Header("Scene Loader")]
     [SerializeField] private string sceneName = "Level1-DEVMAP";
+
+    [Header("Materials Finder Settings")] 
+    [SerializeField] private string[] materialNames;
     
     // Voiture actuellement affichée
     private GameObject[] carPrefabs;
+    private Material[] carMaterials;
     private GameObject currentCar;
 
     // Index du préfab actuel dans le tableau
     private int currentIndex = 0;
+    private int currentMaterialIndex = 0;
+    GameObject currentBody = null;
 
     private void Start()
     {
@@ -24,6 +31,12 @@ public class CustomizeCar : MonoBehaviour
             Debug.LogError("Aucun préfab de voiture n'a été assigné dans le GameManager.");
             return;
         }
+        
+        carMaterials = GameManager.Instance.CarMaterials;
+        
+        // Charger la voiture initiale
+        currentIndex = GameManager.Instance.PlayerPrefabIndex;
+        currentMaterialIndex = GameManager.Instance.PlayerMaterialIndex;
     
         if (carPrefabs.Length > 0)
         {
@@ -33,8 +46,18 @@ public class CustomizeCar : MonoBehaviour
         {
             Debug.LogWarning("Aucun préfab de voiture n'a été assigné.");
         }
+        
+        // Appliquer le matériau initial
+        if (currentBody != null && carMaterials.Length > 0)
+        {
+            ApplyMaterial(currentBody, 0);
+        }
+        else
+        {
+            Debug.LogWarning("Aucun matériau n'a été assigné.");
+        }
     }
-
+    
     // Passer à la voiture suivante
     public void Next()
     {
@@ -77,17 +100,53 @@ public class CustomizeCar : MonoBehaviour
         // Créer la nouvelle voiture à la position et rotation de ce GameObject
         if (carPrefabs[index] != null)
         {
+            
             currentCar = Instantiate(
                 carPrefabs[index],
                 transform.position,
                 transform.rotation,
                 this.transform
             );
+            
+            currentBody = FindFirstComponentWithTag("Body");
+            
         }
         else
         {
             Debug.LogError($"Le préfab à l'index {index} est null.");
         }
+    }
+    
+    public GameObject FindFirstComponentWithTag(string tag)
+    {
+        GameObject foundObject = null;
+        foreach (Transform child in currentCar.GetComponentsInChildren<Transform>())
+        {
+            if (child.CompareTag(tag))
+            {
+                foundObject = child.gameObject;
+                break;
+            }
+        }
+        
+        return foundObject;
+    }
+    
+    // Recherche le Material dans le tableau de matériaux du game object celui qui comporte un string dans son nom
+    private int FindMaterialInArray(GameObject target,int targetMaterialIndex)
+    {
+        for (int i = 0; i < target.GetComponent<MeshRenderer>().materials.Length; i++)
+        {
+            if (target.GetComponent<MeshRenderer>().materials[i].name.Contains(materialNames[targetMaterialIndex]))
+            {
+                Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
+                return i;
+            }
+        }
+        
+        Debug.Log("Found nothing");
+        
+        return 0;
     }
 
     // Retourne l'index de la voiture actuellement affichée
@@ -100,6 +159,47 @@ public class CustomizeCar : MonoBehaviour
     public int ObtenirNombreVoitures()
     {
         return carPrefabs.Length;
+    }
+
+    public void ApplyMaterial(GameObject target, int targetMaterialIndex)
+    {
+        if (target == null || !target.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+            return;
+        
+        int materialIndexToChange = FindMaterialInArray(target, targetMaterialIndex);
+    
+        // Obtenir une copie du tableau de matériaux
+        Material[] materials = renderer.materials;
+    
+        // Modifier le matériau spécifique
+        materials[materialIndexToChange] = carMaterials[currentMaterialIndex];
+    
+        // Réaffecter le tableau complet au renderer
+        renderer.materials = materials;
+    
+        Debug.Log("Material appliqué: " + carMaterials[currentMaterialIndex].name + " à l'index: " + materialIndexToChange);
+    }
+    
+    public void NextBodyMaterial()
+    {
+        currentMaterialIndex++;
+        if (currentMaterialIndex >= carMaterials.Length)
+        {
+            currentMaterialIndex = 0;
+        }
+
+        ApplyMaterial(currentBody, 0);
+    }
+    
+    public void PreviousBodyMaterial()
+    {
+        currentMaterialIndex--;
+        if (currentMaterialIndex < 0)
+        {
+            currentMaterialIndex = carMaterials.Length - 1; // Aller à la fin si on dépasse le début
+        }
+
+        ApplyMaterial(currentBody, 0);
     }
 
     private void OnDrawGizmos()
@@ -146,6 +246,8 @@ public class CustomizeCar : MonoBehaviour
     public void SauvegarderChoixVoiture()
     {
         GameManager.Instance.PlayerPrefabIndex = currentIndex;
+        GameManager.Instance.PlayerMaterialIndex = currentMaterialIndex;
+        GameManager.Instance.SauvegarderDonnees();
     }
 
     public void ChargerChoixVoiture()
