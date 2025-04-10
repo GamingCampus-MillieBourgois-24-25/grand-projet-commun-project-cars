@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CustomizeCar : MonoBehaviour
 {
-    [Header("Préfabs")]
-    [Tooltip("Liste des préfabs de voiture disponibles")]
-    public GameObject[] carPrefabs;
-
+    [Header("Scene Loader")]
+    [SerializeField] private string sceneName = "Level1-DEVMAP";
+    
     // Voiture actuellement affichée
+    private GameObject[] carPrefabs;
     private GameObject currentCar;
 
     // Index du préfab actuel dans le tableau
@@ -16,6 +16,14 @@ public class CustomizeCar : MonoBehaviour
 
     private void Start()
     {
+
+        carPrefabs = GameManager.Instance.CarPrefabs;
+        // Vérifier si le tableau de préfab est vide
+        if (carPrefabs == null || carPrefabs.Length == 0)
+        {
+            Debug.LogError("Aucun préfab de voiture n'a été assigné dans le GameManager.");
+            return;
+        }
     
         if (carPrefabs.Length > 0)
         {
@@ -135,15 +143,20 @@ public class CustomizeCar : MonoBehaviour
         Gizmos.DrawRay(position, -direction * 0.2f - up);
     }
     
-    // Sauvegarde le choix actuel de la voiture
     public void SauvegarderChoixVoiture()
     {
+        GameManager.Instance.PlayerPrefabIndex = currentIndex;
     }
 
-// Charge le choix de voiture précédemment sauvegardé
     public void ChargerChoixVoiture()
     {
-
+        
+    }
+    
+    public void LoadScene()
+    {
+        // Charger la scène spécifiée
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
     
 }
