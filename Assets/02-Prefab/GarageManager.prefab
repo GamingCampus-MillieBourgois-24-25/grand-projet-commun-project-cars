@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045383e2f01463f489c253258b1604f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carPrefabs:
-  - {fileID: 5523569359111467768, guid: 420571014aacb274788d285d57889b8e, type: 3}
-  - {fileID: 2245194425159872023, guid: 9aa261b0602f7c646850105a7f68e37b, type: 3}
+  sceneName: Level1-DEVMAP
+  materialNames:
+  - Accessoires
+  - Carrosserie
+  - Phares
+  - Roues
+  - Vitres

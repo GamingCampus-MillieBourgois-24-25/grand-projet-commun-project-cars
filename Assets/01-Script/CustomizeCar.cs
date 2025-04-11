@@ -137,14 +137,16 @@ public class CustomizeCar : MonoBehaviour
     {
         for (int i = 0; i < target.GetComponent<MeshRenderer>().materials.Length; i++)
         {
-            if (target.GetComponent<MeshRenderer>().materials[i].name.Contains(materialNames[targetMaterialIndex]))
-            {
-                Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
-                return i;
-            }
+            // if (target.GetComponent<MeshRenderer>().materials[i].name.Contains(materialNames[targetMaterialIndex]))
+            // {
+            //     Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
+            //     return i;
+            // }
+            
+            Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
         }
         
-        Debug.Log("Found nothing");
+        Debug.Log("Found nothing In Array");
         
         return 0;
     }
