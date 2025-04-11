@@ -2619,7 +2619,7 @@ Transform:
   m_GameObject: {fileID: 1150103378}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12761535, y: 0, z: 0, w: 0.99182373}
-  m_LocalPosition: {x: 0.00000047683716, y: 2.6359887, z: -6.12796}
+  m_LocalPosition: {x: 8.897641, y: 2.6045387, z: -11.982253}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4788,26 +4788,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6126804287122630822, guid: e9cf0572182a6e543b2f812481ff23c9,
-        type: 3}
-      propertyPath: sceneName
-      value: Level1-DEVMAP
-      objectReference: {fileID: 0}
-    - target: {fileID: 6126804287122630822, guid: e9cf0572182a6e543b2f812481ff23c9,
-        type: 3}
-      propertyPath: materialNames.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6126804287122630822, guid: e9cf0572182a6e543b2f812481ff23c9,
-        type: 3}
-      propertyPath: 'materialNames.Array.data[0]'
-      value: body
-      objectReference: {fileID: 0}
-    - target: {fileID: 6126804287122630822, guid: e9cf0572182a6e543b2f812481ff23c9,
-        type: 3}
-      propertyPath: 'materialNames.Array.data[1]'
-      value: body
-      objectReference: {fileID: 0}
     - target: {fileID: 8684113787862014506, guid: e9cf0572182a6e543b2f812481ff23c9,
         type: 3}
       propertyPath: m_LocalPosition.x
