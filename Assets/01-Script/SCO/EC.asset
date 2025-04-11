@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6a8eddfcce1884a83ea8bde38bb2ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 183434bb0415ee041a0d7bbd1d7d086d, type: 3}
   m_Name: EC
   m_EditorClassIdentifier: 
-  playerPrefabIndex: 0
-  playerMaterialIndex: 0
