@@ -13,16 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     
     [Header("Game Settings")]
-    [SerializeField] private GameObject[] carPrefabs;
-    [SerializeField] private Material[] carMaterials;
+    [SerializeField] private CarData[] carData;
     
     #endregion
     
     [System.Serializable]
     private class SaveData
     {
-        public int playerPrefabIndex;
-        public int playerMaterialIndex;
+        public int playerCarDataIndex;
     }
 
     #region Unity Methods
@@ -45,39 +43,66 @@ public class GameManager : MonoBehaviour
         ChargerDonnees();
     } 
     
-    // Reset player data scriptable object on application quit
-    private void OnApplicationQuit()
-    {
-        playerData.PlayerPrefabIndex = 0;
-        playerData.PlayerMaterialIndex = 0;
-    }
-    
     #endregion
     
     #region Getter And Setter
     // Getters and Setters
-    public int PlayerPrefabIndex
+    
+    // Get the car data based on the index
+    public CarData GetCarData(int index)
     {
-        get { return playerData.PlayerPrefabIndex; }
-        set { playerData.PlayerPrefabIndex = value; }
+        if (index >= 0 && index < carData.Length)
+        {
+            return carData[index];
+        }
+        else
+        {
+            Debug.LogError("Index de voiture invalide : " + index);
+            return null;
+        }
     }
     
-    public int PlayerMaterialIndex
+    // Get the player car data
+    public CarData GetPlayerCarData()
     {
-        get { return playerData.PlayerMaterialIndex; }
-        set { playerData.PlayerMaterialIndex = value; }
+        return GetCarData(playerData.PlayerCarDataIndex);
     }
     
-    public GameObject[] CarPrefabs
+    // Get the player car data index
+    public int GetPlayerCarDataIndex()
     {
-        get { return carPrefabs; }
-        set { carPrefabs = value; }
+        return playerData.PlayerCarDataIndex;
     }
     
-    public Material[] CarMaterials
+    // Set the player car data index
+    public void SetPlayerCarDataIndex(int index)
     {
-        get { return carMaterials; }
-        set { carMaterials = value; }
+        if (index >= 0 && index < carData.Length)
+        {
+            playerData.PlayerCarDataIndex = index;
+        }
+        else
+        {
+            Debug.LogError("Index de voiture invalide : " + index);
+        }
+    }
+    
+    // Get the player data
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
+    }
+    
+    // Set the player data
+    public void SetPlayerData(PlayerData data)
+    {
+        playerData = data;
+    }
+    
+    // Get the car data count
+    public int GetCarDataCount()
+    {
+        return carData.Length;
     }
     
     #endregion
@@ -87,8 +112,7 @@ public class GameManager : MonoBehaviour
     {
         SaveData saveData = new SaveData
         {
-            playerPrefabIndex = playerData.PlayerPrefabIndex,
-            playerMaterialIndex = playerData.PlayerMaterialIndex
+            playerCarDataIndex = playerData.PlayerCarDataIndex,
         };
     
         string json = JsonUtility.ToJson(saveData, true);
@@ -117,8 +141,7 @@ public class GameManager : MonoBehaviour
                 string json = File.ReadAllText(filePath);
                 SaveData saveData = JsonUtility.FromJson<SaveData>(json);
             
-                playerData.PlayerPrefabIndex = saveData.playerPrefabIndex;
-                playerData.PlayerMaterialIndex = saveData.playerMaterialIndex;
+                playerData.PlayerCarDataIndex = saveData.playerCarDataIndex;
                 Debug.Log("Données chargées avec succès");
             }
             catch (System.Exception e)

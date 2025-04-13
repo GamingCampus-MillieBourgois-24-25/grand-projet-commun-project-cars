@@ -695,7 +695,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 409472187}
         m_TargetAssemblyTypeName: CustomizeCar, Assembly-CSharp
-        m_MethodName: Next
+        m_MethodName: NextCar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2507,16 +2507,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 2870d5944ca8fc34f81843d7da75b358, type: 2}
-  carPrefabs:
-  - {fileID: 2245194425159872023, guid: 9aa261b0602f7c646850105a7f68e37b, type: 3}
-  - {fileID: 5523569359111467768, guid: 420571014aacb274788d285d57889b8e, type: 3}
-  - {fileID: 2406567844117368431, guid: 479eb640d193a764a85e369d01dff017, type: 3}
-  - {fileID: 2895834083125604361, guid: 8fae05d98e7d93b4ab8940f4def8d92f, type: 3}
-  carMaterials:
-  - {fileID: 2100000, guid: aabda4169bd5391408a23fd6f7e4d7bb, type: 2}
-  - {fileID: 2100000, guid: 68f3d780b9ab898408af82a9d16118c7, type: 2}
-  - {fileID: 2100000, guid: 9a4eaef8b489097498ce33f70557204c, type: 2}
-  - {fileID: 2100000, guid: cdc573f124a77954fa4c5f0abe78f60e, type: 2}
+  carData:
+  - {fileID: 11400000, guid: e7cd1496aeb4bc149894d6e952205d77, type: 2}
+  - {fileID: 11400000, guid: 6a1eb4fdb96a0b8409b8d97aedb5c171, type: 2}
 --- !u!4 &1120016078
 Transform:
   m_ObjectHideFlags: 0
@@ -3462,6 +3455,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6279734434216311046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1588992580 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8684113787862014506, guid: e9cf0572182a6e543b2f812481ff23c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6299490319164521998}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1601013063
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,7 +3577,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 409472187}
         m_TargetAssemblyTypeName: CustomizeCar, Assembly-CSharp
-        m_MethodName: Previous
+        m_MethodName: PreviousCar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4788,6 +4787,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6126804287122630822, guid: e9cf0572182a6e543b2f812481ff23c9,
+        type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 1588992580}
     - target: {fileID: 8684113787862014506, guid: e9cf0572182a6e543b2f812481ff23c9,
         type: 3}
       propertyPath: m_LocalPosition.x

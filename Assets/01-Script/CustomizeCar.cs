@@ -7,201 +7,187 @@ public class CustomizeCar : MonoBehaviour
 {
     [Header("Scene Loader")]
     [SerializeField] private string sceneName = "Level1-DEVMAP";
-
-    [Header("Materials Finder Settings")] 
-    [SerializeField] private string[] materialNames;
     
-    // Voiture actuellement affichée
-    private GameObject[] carPrefabs;
-    private Material[] carMaterials;
-    private GameObject currentCar;
-
-    // Index du préfab actuel dans le tableau
-    private int currentIndex = 0;
-    private int currentMaterialIndex = 0;
-    GameObject currentBody = null;
-
+    [Header("Spawn Point")]
+    [SerializeField] private Transform spawnPoint;
+    
+    // Get the car data from the GameManager
+    private CarData carData;
+    private GameObject carInstance; // Instance of the car prefab
+    private int carIndex; // Index of the car in the GameManager
+    private int carrosserieIndex; // Index of the carrosserie material
+    private int accessoiresIndex; // Index of the accessoires material
+    
+    // Spawn the car at the spawn point
     private void Start()
     {
-
-        carPrefabs = GameManager.Instance.CarPrefabs;
-        // Vérifier si le tableau de préfab est vide
-        if (carPrefabs == null || carPrefabs.Length == 0)
-        {
-            Debug.LogError("Aucun préfab de voiture n'a été assigné dans le GameManager.");
-            return;
-        }
+        carData = GameManager.Instance.GetPlayerCarData();
         
-        carMaterials = GameManager.Instance.CarMaterials;
-        
-        // Charger la voiture initiale
-        currentIndex = GameManager.Instance.PlayerPrefabIndex;
-        currentMaterialIndex = GameManager.Instance.PlayerMaterialIndex;
-    
-        if (carPrefabs.Length > 0)
+        if (spawnPoint != null)
         {
-            ChargerVoiture(currentIndex);
+            // Instancier la voiture à la position du spawn
+            carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
+            carInstance.transform.SetParent(spawnPoint);
         }
         else
         {
-            Debug.LogWarning("Aucun préfab de voiture n'a été assigné.");
-        }
-        
-        // Appliquer le matériau initial
-        if (currentBody != null && carMaterials.Length > 0)
-        {
-            ApplyMaterial(currentBody, 0);
-        }
-        else
-        {
-            Debug.LogWarning("Aucun matériau n'a été assigné.");
+            Debug.LogError("Aucun point de spawn spécifié !");
         }
     }
     
-    // Passer à la voiture suivante
-    public void Next()
+    // Change the car
+    public void ChangeCar(int index)
     {
-        if (carPrefabs.Length == 0) return;
-
-        currentIndex++;
-        if (currentIndex >= carPrefabs.Length)
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < GameManager.Instance.GetCarDataCount())
         {
-            currentIndex = 0;
-        }
-
-        ChargerVoiture(currentIndex);
-        
-    }
-
-    // Revenir à la voiture précédente
-    public void Previous()
-    {
-        if (carPrefabs.Length == 0) return;
-
-        currentIndex--;
-        if (currentIndex < 0)
-        {
-            currentIndex = carPrefabs.Length - 1; // Aller à la fin si on dépasse le début
-        }
-
-        ChargerVoiture(currentIndex);
-        
-    }
-
-    // Fonction pour charger une voiture spécifique
-    private void ChargerVoiture(int index)
-    {
-        // Détruire la voiture actuelle si elle existe
-        if (currentCar != null)
-        {
-            Destroy(currentCar);
-        }
-
-        // Créer la nouvelle voiture à la position et rotation de ce GameObject
-        if (carPrefabs[index] != null)
-        {
-            
-            currentCar = Instantiate(
-                carPrefabs[index],
-                transform.position,
-                transform.rotation,
-                this.transform
-            );
-            
-            currentBody = FindFirstComponentWithTag("Body");
-            
-        }
-        else
-        {
-            Debug.LogError($"Le préfab à l'index {index} est null.");
-        }
-    }
-    
-    public GameObject FindFirstComponentWithTag(string tag)
-    {
-        GameObject foundObject = null;
-        foreach (Transform child in currentCar.GetComponentsInChildren<Transform>())
-        {
-            if (child.CompareTag(tag))
+            // Détruire l'instance actuelle de la voiture
+            if (carInstance != null)
             {
-                foundObject = child.gameObject;
-                break;
+                Destroy(carInstance);
+            }
+            
+            // Charger les nouvelles données de la voiture
+            carData = GameManager.Instance.GetCarData(index);
+            
+            // Instancier la nouvelle voiture à la position du spawn
+            carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
+            carInstance.transform.SetParent(spawnPoint);
+        }
+        else
+        {
+            Debug.LogError("Index de voiture invalide : " + index);
+        }
+    }
+    
+    // Next car
+    public void NextCar()
+    {
+        // Incrémenter l'index de la voiture
+        carIndex = (carIndex + 1) % GameManager.Instance.GetCarDataCount();
+        
+        // Changer la voiture
+        ChangeCar(carIndex);
+    }
+    
+    // Previous car
+    public void PreviousCar()
+    {
+        // Décrémenter l'index de la voiture
+        carIndex = (carIndex - 1 + GameManager.Instance.GetCarDataCount()) % GameManager.Instance.GetCarDataCount();
+        
+        // Changer la voiture
+        ChangeCar(carIndex);
+    }
+    
+    // Change Les matéraiux du Renderer Chassis (Accessoires,Carrosserie,Phares,Vitres)
+    
+    // Change le matériau de carrosserie
+    public void ChangeCarrosserieMaterial(int index)
+    {
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < carData.GetMaterials(CarMaterialType.Carrosserie).Count)
+        {
+            // Obtenir le renderer du châssis
+            MeshRenderer chassisRenderer = carData.GetChassisRenderer(carInstance);
+            
+            // Changer le matériau de la carrosserie
+            if (chassisRenderer != null)
+            {
+                Material[] materials = chassisRenderer.materials;
+                if (materials.Length > carData.GetIndexInRenderer(CarMaterialType.Carrosserie))
+                {
+                    materials[carData.GetIndexInRenderer(CarMaterialType.Carrosserie)] = carData.GetMaterial(CarMaterialType.Carrosserie, index);
+                    chassisRenderer.materials = materials;
+                }
+                else
+                {
+                    Debug.LogError("Le renderer n'a pas assez de matériaux !");
+                }
+            }
+            else
+            {
+                Debug.LogError("Aucun renderer de châssis trouvé !");
             }
         }
-        
-        return foundObject;
+        else
+        {
+            Debug.LogError("Index de matériau de carrosserie invalide : " + index);
+        }
     }
     
-    // Recherche le Material dans le tableau de matériaux du game object celui qui comporte un string dans son nom
-    private int FindMaterialInArray(GameObject target,int targetMaterialIndex)
+    // Next Carrosserie Material
+    public void NextCarrosserieMaterial()
     {
-        for (int i = 0; i < target.GetComponent<MeshRenderer>().materials.Length; i++)
+        // Incrémenter l'index de la carrosserie
+        carrosserieIndex = (carrosserieIndex + 1) % carData.GetMaterials(CarMaterialType.Carrosserie).Count;
+        
+        // Changer le matériau de la carrosserie
+        ChangeCarrosserieMaterial(carrosserieIndex);
+    }
+    
+    // Previous Carrosserie Material
+    public void PreviousCarrosserieMaterial()
+    {
+        // Décrémenter l'index de la carrosserie
+        carrosserieIndex = (carrosserieIndex - 1 + carData.GetMaterials(CarMaterialType.Carrosserie).Count) % carData.GetMaterials(CarMaterialType.Carrosserie).Count;
+        
+        // Changer le matériau de la carrosserie
+        ChangeCarrosserieMaterial(carrosserieIndex);
+    }
+    
+    // Change le matériau d'accessoires
+    public void ChangeAccessoiresMaterial(int index)
+    {
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < carData.GetMaterials(CarMaterialType.Accessoires).Count)
         {
-            // if (target.GetComponent<MeshRenderer>().materials[i].name.Contains(materialNames[targetMaterialIndex]))
-            // {
-            //     Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
-            //     return i;
-            // }
+            // Obtenir le renderer du châssis
+            MeshRenderer chassisRenderer = carData.GetChassisRenderer(carInstance);
             
-            Debug.Log(target.GetComponent<MeshRenderer>().materials[i].name);
+            // Changer le matériau d'accessoires a l'index spécifié dans le carData
+            if (chassisRenderer != null)
+            {
+                Material[] materials = chassisRenderer.materials;
+                if (materials.Length > carData.GetIndexInRenderer(CarMaterialType.Accessoires))
+                {
+                    materials[carData.GetIndexInRenderer(CarMaterialType.Accessoires)] = carData.GetMaterial(CarMaterialType.Accessoires, index);
+                    chassisRenderer.materials = materials;
+                }
+                else
+                {
+                    Debug.LogError("Le renderer n'a pas assez de matériaux !");
+                }
+            }
+            else
+            {
+                Debug.LogError("Aucun renderer de châssis trouvé !");
+            }
+            
         }
-        
-        Debug.Log("Found nothing In Array");
-        
-        return 0;
-    }
-
-    // Retourne l'index de la voiture actuellement affichée
-    public int ObtenirIndexActuel()
-    {
-        return currentIndex;
-    }
-
-    // Retourne le nombre total de voitures disponibles
-    public int ObtenirNombreVoitures()
-    {
-        return carPrefabs.Length;
-    }
-
-    public void ApplyMaterial(GameObject target, int targetMaterialIndex)
-    {
-        if (target == null || !target.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
-            return;
-        
-        int materialIndexToChange = FindMaterialInArray(target, targetMaterialIndex);
-    
-        // Obtenir une copie du tableau de matériaux
-        Material[] materials = renderer.materials;
-    
-        // Modifier le matériau spécifique
-        materials[materialIndexToChange] = carMaterials[currentMaterialIndex];
-    
-        // Réaffecter le tableau complet au renderer
-        renderer.materials = materials;
-    
-        Debug.Log("Material appliqué: " + carMaterials[currentMaterialIndex].name + " à l'index: " + materialIndexToChange);
-    }
-    
-    public void NextBodyMaterial()
-    {
-        currentMaterialIndex++;
-        if (currentMaterialIndex >= carMaterials.Length)
+        else
         {
-            currentMaterialIndex = 0;
+            Debug.LogError("Index de matériau d'accessoires invalide : " + index);
         }
-
-        ApplyMaterial(currentBody, 0);
     }
     
-    public void PreviousBodyMaterial()
+    // Next Accessoires Material
+    public void NextAccessoiresMaterial()
     {
-        currentMaterialIndex--;
-        if (currentMaterialIndex < 0)
-        {
-            currentMaterialIndex = carMaterials.Length - 1; // Aller à la fin si on dépasse le début
-        }
-
-        ApplyMaterial(currentBody, 0);
+        // Incrémenter l'index d'accessoires
+        accessoiresIndex = (accessoiresIndex + 1) % carData.GetMaterials(CarMaterialType.Accessoires).Count;
+        
+        // Changer le matériau d'accessoires
+        ChangeAccessoiresMaterial(accessoiresIndex);
+    }
+    // Previous Accessoires Material
+    public void PreviousAccessoiresMaterial()
+    {
+        // Décrémenter l'index d'accessoires
+        accessoiresIndex = (accessoiresIndex - 1 + carData.GetMaterials(CarMaterialType.Accessoires).Count) % carData.GetMaterials(CarMaterialType.Accessoires).Count;
+        
+        // Changer le matériau d'accessoires
+        ChangeAccessoiresMaterial(accessoiresIndex);
     }
 
     private void OnDrawGizmos()
@@ -243,18 +229,6 @@ public class CustomizeCar : MonoBehaviour
         Gizmos.DrawRay(position, -direction * 0.2f - right);
         Gizmos.DrawRay(position, -direction * 0.2f + up);
         Gizmos.DrawRay(position, -direction * 0.2f - up);
-    }
-    
-    public void SauvegarderChoixVoiture()
-    {
-        GameManager.Instance.PlayerPrefabIndex = currentIndex;
-        GameManager.Instance.PlayerMaterialIndex = currentMaterialIndex;
-        GameManager.Instance.SauvegarderDonnees();
-    }
-
-    public void ChargerChoixVoiture()
-    {
-        
     }
     
     public void LoadScene()

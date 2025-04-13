@@ -6,21 +6,13 @@ public class PlayerData : ScriptableObject
 {
    
     [Header("Données Joueur")]
-    [SerializeField] private int playerPrefabIndex = 0;
-    [SerializeField] private int playerMaterialIndex = 0;
+    [SerializeField] private int playerCarDataIndex = 0;
     
     // Getter and Setter
-    public int PlayerPrefabIndex
+    public int PlayerCarDataIndex
     {
-        get { return playerPrefabIndex; }
-        set { playerPrefabIndex = value; }
+        get { return playerCarDataIndex; }
+        set { playerCarDataIndex = value; }
     }
-    
-    public int PlayerMaterialIndex
-    {
-        get { return playerMaterialIndex; }
-        set { playerMaterialIndex = value; }
-    }
-    
     
 }
