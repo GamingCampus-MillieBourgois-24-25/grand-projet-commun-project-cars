@@ -828,7 +828,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 409472187}
         m_TargetAssemblyTypeName: CustomizeCar, Assembly-CSharp
-        m_MethodName: NextBodyMaterial
+        m_MethodName: NextCarrosserieMaterial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1081,7 +1081,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 409472187}
         m_TargetAssemblyTypeName: CustomizeCar, Assembly-CSharp
-        m_MethodName: PreviousBodyMaterial
+        m_MethodName: PreviousAccessoiresMaterial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

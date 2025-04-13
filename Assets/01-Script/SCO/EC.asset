@@ -17,26 +17,23 @@ MonoBehaviour:
     carPrefab: {fileID: 2895834083125604361, guid: 8fae05d98e7d93b4ab8940f4def8d92f,
       type: 3}
     chassisRenderer:
-      componentPath: 
       componentTag: Body
     rouesRenderers:
-    - componentPath: 
-      componentTag: Roue
-    - componentPath: 
-      componentTag: Roue
-    - componentPath: 
-      componentTag: Roue
-    - componentPath: 
-      componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
     accessoiresMaterials:
       nomCollection: Easter Egg Accessoires
       materials:
       - {fileID: 2100000, guid: ad69c9868b6909341a81154530c484be, type: 2}
+      - {fileID: 2100000, guid: 9d5d6f4788586864ca4ddeaca8b11e8d, type: 2}
       indexInRenderer: 1
     carrosserieMaterials:
       nomCollection: Easter Egg Carrosserie
       materials:
       - {fileID: 2100000, guid: ff0c13110149b674cb30c037ba2494e3, type: 2}
+      - {fileID: 2100000, guid: 97898086597fde442bf08e0617b56b57, type: 2}
       indexInRenderer: 0
     pharesMaterials:
       nomCollection: Easter Egg Phares
