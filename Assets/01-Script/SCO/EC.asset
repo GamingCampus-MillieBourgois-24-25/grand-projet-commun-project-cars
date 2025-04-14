@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183434bb0415ee041a0d7bbd1d7d086d, type: 3}
+  m_Name: EC
+  m_EditorClassIdentifier: 
+  car:
+    carName: Easter EGG
+    carPrefab: {fileID: 2895834083125604361, guid: 8fae05d98e7d93b4ab8940f4def8d92f,
+      type: 3}
+    chassisRenderer:
+      componentTag: Body
+    rouesRenderers:
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    accessoiresMaterials:
+      nomCollection: Easter Egg Accessoires
+      materials:
+      - {fileID: 2100000, guid: ad69c9868b6909341a81154530c484be, type: 2}
+      - {fileID: 2100000, guid: 9d5d6f4788586864ca4ddeaca8b11e8d, type: 2}
+      indexInRenderer: 1
+    carrosserieMaterials:
+      nomCollection: Easter Egg Carrosserie
+      materials:
+      - {fileID: 2100000, guid: ff0c13110149b674cb30c037ba2494e3, type: 2}
+      - {fileID: 2100000, guid: 97898086597fde442bf08e0617b56b57, type: 2}
+      indexInRenderer: 0
+    pharesMaterials:
+      nomCollection: Easter Egg Phares
+      materials:
+      - {fileID: 2100000, guid: 658cbfa7d0f891d41b7b29fc460239a6, type: 2}
+      indexInRenderer: 2
+    rouesMaterials:
+      nomCollection: Easter Egg Roues
+      materials:
+      - {fileID: 2100000, guid: f1337d9f1e53c47419f0c2b32b8f42be, type: 2}
+      indexInRenderer: 0
+    vitresMaterials:
+      nomCollection: Easter Egg Vitres
+      materials:
+      - {fileID: 2100000, guid: 74d52feac1c9dcf4f83f3a34597d7f3e, type: 2}
+      indexInRenderer: 3
