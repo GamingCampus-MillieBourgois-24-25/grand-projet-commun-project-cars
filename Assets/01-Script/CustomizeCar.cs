@@ -11,12 +11,22 @@ public class CustomizeCar : MonoBehaviour
     [Header("Spawn Point")]
     [SerializeField] private Transform spawnPoint;
     
+    // Sound / Music settings
+    [Header("Sound / Music")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip backgroundMusic;
+    [SerializeField] private bool playMusicOnStart = true;
+    [SerializeField] private float musicVolume = 0.5f;
+    
     // Get the car data from the GameManager
     private CarData carData;
     private GameObject carInstance; // Instance of the car prefab
     private int carIndex; // Index of the car in the GameManager
     private int carrosserieIndex; // Index of the carrosserie material
     private int accessoiresIndex; // Index of the accessoires material
+    private int pharesIndex; // Index of the phares material
+    private int rouesIndex; // Index of the roues material
+    private int vitresIndex; // Index of the vitres material
     
     // Spawn the car at the spawn point
     private void Start()
@@ -28,10 +38,54 @@ public class CustomizeCar : MonoBehaviour
             // Instancier la voiture à la position du spawn
             carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
             carInstance.transform.SetParent(spawnPoint);
+            
+            // Charger les données de la voiture
+            LoadCarData();
         }
         else
         {
             Debug.LogError("Aucun point de spawn spécifié !");
+        }
+        
+        // Configuration et démarrage de la musique de fond
+        if (audioSource != null && backgroundMusic != null && playMusicOnStart)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;  // Lecture en boucle
+            audioSource.volume = musicVolume;
+            audioSource.Play();
+        }
+        else if (audioSource == null)
+        {
+            Debug.LogWarning("AudioSource non assigné à CustomizeCar.");
+        }
+    }
+    
+    // Démarrer la lecture de la musique
+    public void PlayMusic()
+    {
+        if (audioSource != null && backgroundMusic != null)
+        {
+            audioSource.Play();
+        }
+    }
+
+    // Arrêter la lecture de la musique
+    public void StopMusic()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    // Régler le volume de la musique
+    public void SetMusicVolume(float volume)
+    {
+        if (audioSource != null)
+        {
+            audioSource.volume = Mathf.Clamp01(volume);
+            musicVolume = audioSource.volume;
         }
     }
     
@@ -53,6 +107,7 @@ public class CustomizeCar : MonoBehaviour
             // Instancier la nouvelle voiture à la position du spawn
             carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
             carInstance.transform.SetParent(spawnPoint);
+            carInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
         else
         {
@@ -189,6 +244,174 @@ public class CustomizeCar : MonoBehaviour
         // Changer le matériau d'accessoires
         ChangeAccessoiresMaterial(accessoiresIndex);
     }
+    
+    // Change le matériau de phares
+    public void ChangePharesMaterial(int index)
+    {
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < carData.GetMaterials(CarMaterialType.Phares).Count)
+        {
+            // Obtenir le renderer du châssis
+            MeshRenderer chassisRenderer = carData.GetChassisRenderer(carInstance);
+            
+            // Changer le matériau de phares a l'index spécifié dans le carData
+            if (chassisRenderer != null)
+            {
+                Material[] materials = chassisRenderer.materials;
+                if (materials.Length > carData.GetIndexInRenderer(CarMaterialType.Phares))
+                {
+                    materials[carData.GetIndexInRenderer(CarMaterialType.Phares)] = carData.GetMaterial(CarMaterialType.Phares, index);
+                    chassisRenderer.materials = materials;
+                }
+                else
+                {
+                    Debug.LogError("Le renderer n'a pas assez de matériaux !");
+                }
+            }
+            else
+            {
+                Debug.LogError("Aucun renderer de châssis trouvé !");
+            }
+            
+        }
+        else
+        {
+            Debug.LogError("Index de matériau de phares invalide : " + index);
+        }
+    }
+    
+    // Next Phares Material
+    public void NextPharesMaterial()
+    {
+        // Incrémenter l'index de phares
+        pharesIndex = (pharesIndex + 1) % carData.GetMaterials(CarMaterialType.Phares).Count;
+        
+        // Changer le matériau de phares
+        ChangePharesMaterial(pharesIndex);
+    }
+    
+    // Previous Phares Material
+    public void PreviousPharesMaterial()
+    {
+        // Décrémenter l'index de phares
+        pharesIndex = (pharesIndex - 1 + carData.GetMaterials(CarMaterialType.Phares).Count) % carData.GetMaterials(CarMaterialType.Phares).Count;
+        
+        // Changer le matériau de phares
+        ChangePharesMaterial(pharesIndex);
+    }
+    
+    // Change le matériau de roues
+    public void ChangeRouesMaterial(int index)
+    {
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < carData.GetMaterials(CarMaterialType.Roues).Count)
+        {
+            // Obtenir le renderer du châssis
+            List<MeshRenderer> rouesRenderer = carData.GetRouesRenderers(carInstance);
+            
+            // Changer le matériau de roues a l'index spécifié dans le carData
+            if (rouesRenderer != null)
+            {
+                foreach (MeshRenderer renderer in rouesRenderer)
+                {
+                    Material[] materials = renderer.materials;
+                    if (materials.Length > carData.GetIndexInRenderer(CarMaterialType.Roues))
+                    {
+                        materials[carData.GetIndexInRenderer(CarMaterialType.Roues)] = carData.GetMaterial(CarMaterialType.Roues, index);
+                        renderer.materials = materials;
+                    }
+                    else
+                    {
+                        Debug.LogError("Le renderer n'a pas assez de matériaux !");
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Aucun renderer de roues trouvé !");
+            }
+            
+        }
+        else
+        {
+            Debug.LogError("Index de matériau de roues invalide : " + index);
+        }
+    }
+    
+    // Next Roues Material
+    public void NextRouesMaterial()
+    {
+        // Incrémenter l'index de roues
+        rouesIndex = (rouesIndex + 1) % carData.GetMaterials(CarMaterialType.Roues).Count;
+        
+        // Changer le matériau de roues
+        ChangeRouesMaterial(rouesIndex);
+    }
+    
+    // Previous Roues Material
+    public void PreviousRouesMaterial()
+    {
+        // Décrémenter l'index de roues
+        rouesIndex = (rouesIndex - 1 + carData.GetMaterials(CarMaterialType.Roues).Count) % carData.GetMaterials(CarMaterialType.Roues).Count;
+        
+        // Changer le matériau de roues
+        ChangeRouesMaterial(rouesIndex);
+    }
+    
+    // Change le matériau de vitres
+    public void ChangeVitresMaterial(int index)
+    {
+        // Vérifier si l'index est valide
+        if (index >= 0 && index < carData.GetMaterials(CarMaterialType.Vitres).Count)
+        {
+            // Obtenir le renderer du châssis
+            MeshRenderer chassisRenderer = carData.GetChassisRenderer(carInstance);
+            
+            // Changer le matériau de vitres a l'index spécifié dans le carData
+            if (chassisRenderer != null)
+            {
+                Material[] materials = chassisRenderer.materials;
+                if (materials.Length > carData.GetIndexInRenderer(CarMaterialType.Vitres))
+                {
+                    materials[carData.GetIndexInRenderer(CarMaterialType.Vitres)] = carData.GetMaterial(CarMaterialType.Vitres, index);
+                    chassisRenderer.materials = materials;
+                }
+                else
+                {
+                    Debug.LogError("Le renderer n'a pas assez de matériaux !");
+                }
+            }
+            else
+            {
+                Debug.LogError("Aucun renderer de châssis trouvé !");
+            }
+            
+        }
+        else
+        {
+            Debug.LogError("Index de matériau de vitres invalide : " + index);
+        }
+    }
+    
+    // Next Vitres Material
+    public void NextVitresMaterial()
+    {
+        // Incrémenter l'index de vitres
+        vitresIndex = (vitresIndex + 1) % carData.GetMaterials(CarMaterialType.Vitres).Count;
+        
+        // Changer le matériau de vitres
+        ChangeVitresMaterial(vitresIndex);
+    }
+    
+    // Previous Vitres Material
+    public void PreviousVitresMaterial()
+    {
+        // Décrémenter l'index de vitres
+        vitresIndex = (vitresIndex - 1 + carData.GetMaterials(CarMaterialType.Vitres).Count) % carData.GetMaterials(CarMaterialType.Vitres).Count;
+        
+        // Changer le matériau de vitres
+        ChangeVitresMaterial(vitresIndex);
+    }
 
     private void OnDrawGizmos()
     {
@@ -235,6 +458,41 @@ public class CustomizeCar : MonoBehaviour
     {
         // Charger la scène spécifiée
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+    }
+    
+    // Save the car data using the GameManager SaveMethod
+    public void SaveCarData()
+    {
+        PlayerData currentPlayerData = GameManager.Instance.GetPlayerData();
+        currentPlayerData.PlayerCarDataIndex = carIndex;
+        currentPlayerData.PlayerCarAccessoireIndex = accessoiresIndex;
+        currentPlayerData.PlayerCarCarrosserieIndex = carrosserieIndex;
+        currentPlayerData.PlayerCarPharesIndex = pharesIndex;
+        currentPlayerData.PlayerCarVitresIndex = vitresIndex;
+        currentPlayerData.PlayerCarRouesIndex = rouesIndex;
+        
+        GameManager.Instance.SetPlayerData(currentPlayerData);
+        
+        GameManager.Instance.SauvegarderDonnees();
+    }
+    
+    // Load the car data using the GameManager LoadMethod
+    public void LoadCarData()
+    {
+        PlayerData currentPlayerData = GameManager.Instance.GetPlayerData();
+        carIndex = currentPlayerData.PlayerCarDataIndex;
+        accessoiresIndex = currentPlayerData.PlayerCarAccessoireIndex;
+        carrosserieIndex = currentPlayerData.PlayerCarCarrosserieIndex;
+        pharesIndex = currentPlayerData.PlayerCarPharesIndex;
+        vitresIndex = currentPlayerData.PlayerCarVitresIndex;
+        rouesIndex = currentPlayerData.PlayerCarRouesIndex;
+        
+        ChangeCar(carIndex);
+        ChangeAccessoiresMaterial(accessoiresIndex);
+        ChangeCarrosserieMaterial(carrosserieIndex);
+        ChangePharesMaterial(pharesIndex);
+        ChangeVitresMaterial(vitresIndex);
+        ChangeRouesMaterial(rouesIndex);
     }
     
 }
