@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Android.Gradle;
 
 public class ScrollSnapToCenter : MonoBehaviour
 {
@@ -56,7 +55,7 @@ public class ScrollSnapToCenter : MonoBehaviour
     {
         if (ItemNumber < ItemNames.Length - 1)
         {
-            scrollRect.velocity = new Vector2(-1500f, 0f);
+            scrollRect.velocity = new Vector2(-1350f, 0f);
         }
     }
 
@@ -64,7 +63,7 @@ public class ScrollSnapToCenter : MonoBehaviour
     {
         if (ItemNumber > 0)
         {
-            scrollRect.velocity = new Vector2(1500f, 0f);
+            scrollRect.velocity = new Vector2(1350f, 0f);
         }
     }
 
