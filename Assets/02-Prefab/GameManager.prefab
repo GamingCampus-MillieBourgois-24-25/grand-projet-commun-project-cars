@@ -48,3 +48,4 @@ MonoBehaviour:
   carData:
   - {fileID: 11400000, guid: e7cd1496aeb4bc149894d6e952205d77, type: 2}
   - {fileID: 11400000, guid: 6a1eb4fdb96a0b8409b8d97aedb5c171, type: 2}
+  - {fileID: 11400000, guid: e2da511da18ea8b43a14b40c76ce635a, type: 2}

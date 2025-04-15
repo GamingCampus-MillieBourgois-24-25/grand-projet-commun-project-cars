@@ -3771,7 +3771,7 @@ Transform:
   m_GameObject: {fileID: 1150103378}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12761535, y: 0, z: 0, w: 0.99182373}
-  m_LocalPosition: {x: 8.897641, y: 2.6045387, z: -11.982253}
+  m_LocalPosition: {x: -1.23, y: 2.4611297, z: -3.6518757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6779,6 +6779,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1744516870324863782, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
+        type: 3}
+      propertyPath: carData.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744516870324863782, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
+        type: 3}
+      propertyPath: 'carData.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e2da511da18ea8b43a14b40c76ce635a,
+        type: 2}
     - target: {fileID: 5119637324490161366, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
         type: 3}
       propertyPath: m_LocalPosition.x
