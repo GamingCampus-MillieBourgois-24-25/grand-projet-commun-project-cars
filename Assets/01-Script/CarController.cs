@@ -235,13 +235,18 @@ namespace CarController
             if (boostInput > 0.5f)
             {
                 ActivateBoost();
-                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 120, Time.deltaTime * 5);
             }
             else if (isBoostActive)
             {
                 DeactivateBoost();
             }
-            else 
+
+
+            if (isBoostActive && boostInput > 0.5f)
+            {
+                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 120, Time.deltaTime * 5);
+            }
+            else
             {
                 virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 80, Time.deltaTime * 5);
             }
@@ -352,6 +357,7 @@ namespace CarController
             currentBoostMultiplier = boostMaxSpeedMultiplier;
             MaxSpeed = originalMaxSpeed * currentBoostMultiplier;
             
+            
         }
         
         // Désactiver le boost
@@ -415,14 +421,18 @@ namespace CarController
             }
         }
         
-        // public void ReloadBoost()
-        // { 
-        //     // Recharge le boost en fonction de la vitesse laterale
-        //     float lateralSpeed = Mathf.Abs(carVelocity.x);
-        //     float boostRecharge = lateralSpeed * boostRechargeRate * Time.fixedDeltaTime;
-        //     currentBoostAmount += boostRecharge;
-        //     currentBoostAmount = Mathf.Min(currentBoostAmount, maxBoostAmount);
-        // }
+        public void ReloadBoost()
+        {
+            if (!isBoostActive)
+            {
+                // Recharge le boost en fonction de la vitesse laterale en utilisant la vitesse sur l'axe x normalized
+                float lateralSpeed = Mathf.Abs(carVelocity.x);
+                // Clamp la vitesse latérale pour éviter une recharge trop rapide
+                lateralSpeed = Mathf.Clamp(lateralSpeed, 0, 4);
+                currentBoostAmount += lateralSpeed * Time.fixedDeltaTime;
+                currentBoostAmount = Mathf.Min(currentBoostAmount, maxBoostAmount);
+            }
+        }
         
         #endregion
 
