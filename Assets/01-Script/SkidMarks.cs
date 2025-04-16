@@ -40,7 +40,7 @@ namespace CarController
                     fadeOutSpeed = 0f;
                     skidMark.materials[0].color = Color.black;
                     skidMark.emitting = true;
-                    carController.ReloadBoost();
+                    //carController.ReloadBoost();
                 }
                 else
                 {
