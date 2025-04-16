@@ -2,7 +2,7 @@
 - Project name: grand-projet-commun-project-cars
 - Unity version: Unity 2023.2.20f1
 - Active game object:
-  - Name: Cars
+  - Name: Cube
   - Tag: Untagged
-  - Layer: carbody
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

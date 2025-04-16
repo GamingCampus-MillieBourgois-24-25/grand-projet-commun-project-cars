@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class CustomizeCar : MonoBehaviour
 {
+    //Get The Data For The script add after the spawn
+    [SerializeField] GameObject CanvasCar;
+    [SerializeField] MenuScript script;
+    [SerializeField] CameraControl script2;
+
+    //Rest
     [Header("Scene Loader")]
     [SerializeField] private string sceneName = "Level1-DEVMAP";
     
@@ -108,13 +114,40 @@ public class CustomizeCar : MonoBehaviour
             carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
             carInstance.transform.SetParent(spawnPoint);
             carInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            Transform Mesh = carInstance.transform.Find("Mesh");
+            if (Mesh != null)
+            {
+                Transform body = Mesh.Find("Body");
+                if (body != null)
+                {
+                    CarButton ScriptButton = body.gameObject.AddComponent<CarButton>();
+                    AssignCarButton(ScriptButton);
+                    Outline ScriptOutline = body.gameObject.AddComponent<Outline>();
+                    ScriptOutline.OutlineWidth = 10;
+                }
+            }
         }
         else
         {
             Debug.LogError("Index de voiture invalide : " + index);
         }
     }
-    
+
+    void AssignCarButton(CarButton carButton)
+    {
+        // Utiliser de la réflexion pour accéder aux SerializeField privés
+        var type = typeof(CarButton);
+
+        type.GetField("CanvasCar", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(carButton, CanvasCar);
+
+        type.GetField("script", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(carButton, script);
+
+        type.GetField("script2", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(carButton, script2);
+    }
+
     // Next car
     public void NextCar()
     {
