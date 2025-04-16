@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     private class SaveData
     {
         public int playerCarDataIndex;
+        public int playerCarAccessoireIndex;
+        public int playerCarCarrosserieIndex;
+        public int playerCarPharesIndex;
+        public int playerCarVitresIndex;
+        public int playerCarRouesIndex;
     }
 
     #region Unity Methods
@@ -113,6 +118,11 @@ public class GameManager : MonoBehaviour
         SaveData saveData = new SaveData
         {
             playerCarDataIndex = playerData.PlayerCarDataIndex,
+            playerCarAccessoireIndex = playerData.PlayerCarAccessoireIndex,
+            playerCarCarrosserieIndex = playerData.PlayerCarCarrosserieIndex,
+            playerCarPharesIndex = playerData.PlayerCarPharesIndex,
+            playerCarVitresIndex = playerData.PlayerCarVitresIndex,
+            playerCarRouesIndex = playerData.PlayerCarRouesIndex
         };
     
         string json = JsonUtility.ToJson(saveData, true);
@@ -142,6 +152,11 @@ public class GameManager : MonoBehaviour
                 SaveData saveData = JsonUtility.FromJson<SaveData>(json);
             
                 playerData.PlayerCarDataIndex = saveData.playerCarDataIndex;
+                playerData.PlayerCarAccessoireIndex = saveData.playerCarAccessoireIndex;
+                playerData.PlayerCarCarrosserieIndex = saveData.playerCarCarrosserieIndex;
+                playerData.PlayerCarPharesIndex = saveData.playerCarPharesIndex;
+                playerData.PlayerCarVitresIndex = saveData.playerCarVitresIndex;
+                playerData.PlayerCarRouesIndex = saveData.playerCarRouesIndex;
                 Debug.Log("Données chargées avec succès");
             }
             catch (System.Exception e)

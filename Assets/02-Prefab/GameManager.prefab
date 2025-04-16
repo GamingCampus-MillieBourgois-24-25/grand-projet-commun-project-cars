@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8418457232519763364
+--- !u!1 &257361526440151787
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2065083246706927445}
-  - component: {fileID: 5900788332679914900}
+  - component: {fileID: 5119637324490161366}
+  - component: {fileID: 1744516870324863782}
   m_Layer: 0
-  m_Name: SpawnPointPlayer
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2065083246706927445
+--- !u!4 &5119637324490161366
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8418457232519763364}
+  m_GameObject: {fileID: 257361526440151787}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.01, y: 21.43, z: 87.23306}
+  m_LocalPosition: {x: 110.79999, y: 22.508427, z: 102.886925}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5900788332679914900
+--- !u!114 &1744516870324863782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8418457232519763364}
+  m_GameObject: {fileID: 257361526440151787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0585a377bfeff9e478137b4422059a1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 44857c28c5028e84d95ea7992e7eb5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnOnStart: 1
+  playerData: {fileID: 11400000, guid: 2870d5944ca8fc34f81843d7da75b358, type: 2}
+  carData:
+  - {fileID: 11400000, guid: e7cd1496aeb4bc149894d6e952205d77, type: 2}
+  - {fileID: 11400000, guid: 6a1eb4fdb96a0b8409b8d97aedb5c171, type: 2}
+  - {fileID: 11400000, guid: e2da511da18ea8b43a14b40c76ce635a, type: 2}

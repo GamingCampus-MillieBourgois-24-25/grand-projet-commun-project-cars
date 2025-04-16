@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 183434bb0415ee041a0d7bbd1d7d086d, type: 3}
-  m_Name: GC
+  m_Name: HC
   m_EditorClassIdentifier: 
   car:
-    carName: Gros Cynlindre
-    carPrefab: {fileID: 2906242523299492023, guid: b8e01c96e81b53e4ba657583cc99821a,
+    carName: Hypercar
+    carPrefab: {fileID: 7451072028066421558, guid: aa2e83f9c86a2fa43a9dd78a2c10215e,
       type: 3}
     chassisRenderer:
       componentTag: Body
@@ -26,7 +26,7 @@ MonoBehaviour:
     accessoiresMaterials:
       nomCollection: Global
       materials:
-      - {fileID: 2100000, guid: 87a2fe79bdaf63246b2a64c3b17cace5, type: 2}
+      - {fileID: 2100000, guid: 8e0ec1521a288a645956d3567e26568a, type: 2}
       indexInRenderer: 0
     carrosserieMaterials:
       nomCollection: 
