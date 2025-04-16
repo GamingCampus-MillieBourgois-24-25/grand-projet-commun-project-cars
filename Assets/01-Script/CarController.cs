@@ -380,6 +380,16 @@ namespace CarController
             return currentBoostAmount / maxBoostAmount;
         }
         
+        public float GetBoostAmount()
+        {
+            return currentBoostAmount;
+        }
+        
+        public float GetMaxBoostAmount()
+        {
+            return maxBoostAmount;
+        }
+        
         // Gérer le boost dans FixedUpdate
         private void ManageBoost()
         {
