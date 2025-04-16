@@ -8,6 +8,7 @@ namespace CarController
         [HideInInspector] public float steeringInput = 0f;
         [HideInInspector] public float accelerationInput = 0f;
         [HideInInspector] public float brakeInput = 0f;
+        [HideInInspector] public float boostInput = 0f;
         [HideInInspector] public bool overrideInputs = false;
     }
 }

@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace CarController
@@ -11,6 +12,7 @@ namespace CarController
         [SerializeField] private  MovementMode movementMode;
         [SerializeField] private  groundCheck GroundCheck;
         [SerializeField] private  LayerMask drivableSurface;
+        [SerializeField] private  CinemachineVirtualCamera virtualCamera;
 
         [Header("Vehicle Settings")]
         [Tooltip("turn more while drifting (while holding space) only if kart Like is true")]
@@ -20,7 +22,6 @@ namespace CarController
         [SerializeField] private  bool AirControl = false;
         [Tooltip("if true : vehicle will drift instead of brake while holding space")]
         [SerializeField] private  bool kartLike = false;
-        
 
         [SerializeField] private  Rigidbody rb, carBody;
 
@@ -47,12 +48,29 @@ namespace CarController
         [Range(1, 3)]
         [SerializeField] private  float MaxPitch;
         [SerializeField] private  AudioSource SkidSound;
+        
+        [Header("Boost Settings")]
+        [SerializeField] private float boostMaxSpeedMultiplier = 1.5f;     // Multiplicateur de vitesse max pendant le boost
+        [SerializeField] private float boostFalloffSpeed = 4.0f;           // Vitesse de retour à la normale (plus grand = plus rapide)
+        [SerializeField] private float maxBoostAmount = 100f;              // Quantité maximale de boost
+        [SerializeField] private float boostConsumptionRate = 25f;         // Consommation du boost par seconde
+        [SerializeField] private float boostRechargeRate = 10f;            // Régénération du boost par seconde
+        [SerializeField] private bool boostAutoRecharge = true;            // Si le boost se recharge automatiquement
+        [SerializeField] private ParticleSystem boostParticles;            // Effets visuels du boost
+        [SerializeField] private AudioClip boostSound;                     // Son du boost
+        [SerializeField] private AudioClip boostEmptySound;                // Son quand le boost est vide
 
+        private float currentBoostAmount;                       // Quantité actuelle de boost
+        private float originalMaxSpeed;                         // Vitesse max originale
+        private float currentBoostMultiplier = 1.0f;            // Multiplicateur de vitesse actuel
+        private bool isBoostActive = false;                     // Si le boost est actuellement activé
+        private AudioSource boostAudioSource;                   // Source audio pour le boost
+        
         [HideInInspector]
         public float skidWidth;
         
         private IA_Steering steeringAction;
-        private float radius, steeringInput, accelerationInput, brakeInput;
+        private float radius, steeringInput, accelerationInput, brakeInput, boostInput;
         private Vector3 origin;
         
         #endregion
@@ -81,6 +99,10 @@ namespace CarController
             {
                 Physics.defaultMaxAngularSpeed = 100;
             }
+            
+            // Initialize the boost amount
+            originalMaxSpeed = MaxSpeed;
+            currentBoostAmount = maxBoostAmount;
         }
 
         private void Update()
@@ -131,6 +153,9 @@ namespace CarController
                         rb.constraints = RigidbodyConstraints.None;
                     }
                 }
+                
+                // Boost logic
+                ManageBoost();
 
                 //accelaration logic
 
@@ -188,21 +213,40 @@ namespace CarController
             CarControllerInputOverride inputOverride = GetComponent<CarControllerInputOverride>();
             if (inputOverride != null && inputOverride.overrideInputs)
             {
-                // Use the AI controller's inputs
+                // Utiliser les inputs de l'IA
                 steeringInput = inputOverride.steeringInput;
                 accelerationInput = inputOverride.accelerationInput;
                 brakeInput = inputOverride.brakeInput;
+                boostInput = inputOverride.boostInput;
             }
             else
             {
-                // Use the normal player input system
+                // Utiliser le système d'input du joueur
                 Vector2 input = steeringAction.Steering.Steering.ReadValue<Vector2>();
                 steeringInput = input.x;
                 accelerationInput = input.y;
-                
                 brakeInput = steeringAction.Steering.Brake.ReadValue<float>();
         
+                // Lire l'input de boost
+                boostInput = steeringAction.Steering.Boost.ReadValue<float>();
             }
+    
+            // Activer ou désactiver le boost selon l'input
+            if (boostInput > 0.5f)
+            {
+                ActivateBoost();
+                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 120, Time.deltaTime * 5);
+            }
+            else if (isBoostActive)
+            {
+                DeactivateBoost();
+            }
+            else 
+            {
+                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 80, Time.deltaTime * 5);
+            }
+            
+            
         }
         
         #endregion
@@ -263,6 +307,122 @@ namespace CarController
             }
 
         }
+        
+        #endregion
+        
+        #region Boost
+        
+        // Activer le boost
+        private void ActivateBoost()
+        {
+            if (currentBoostAmount <= 0) 
+            {
+                // Jouer le son de boost vide si disponible
+                if (boostEmptySound != null && boostAudioSource != null && !boostAudioSource.isPlaying)
+                    boostAudioSource.PlayOneShot(boostEmptySound);
+                return;
+            }
+        
+            if (!isBoostActive)
+            {
+                // Activer le boost pour la première fois
+                isBoostActive = true;
+                
+                // Démarrer les effets visuels
+                if (boostParticles != null && !boostParticles.isPlaying)
+                    boostParticles.Play();
+                
+                // Jouer le son du boost
+                if (boostSound != null)
+                {
+                    if (boostAudioSource == null)
+                    {
+                        boostAudioSource = gameObject.AddComponent<AudioSource>();
+                        boostAudioSource.playOnAwake = false;
+                        boostAudioSource.spatialBlend = engineSound.spatialBlend;
+                        boostAudioSource.volume = 0.7f;
+                    }
+                    boostAudioSource.clip = boostSound;
+                    boostAudioSource.loop = true;
+                    boostAudioSource.Play();
+                }
+            }
+        
+            // Appliquer immédiatement la vitesse max du boost
+            currentBoostMultiplier = boostMaxSpeedMultiplier;
+            MaxSpeed = originalMaxSpeed * currentBoostMultiplier;
+            
+        }
+        
+        // Désactiver le boost
+        private void DeactivateBoost()
+        {
+            isBoostActive = false;
+            
+            // Arrêter les effets
+            if (boostParticles != null)
+                boostParticles.Stop();
+                
+            if (boostAudioSource != null && boostAudioSource.isPlaying)
+                boostAudioSource.Stop();
+            
+        }
+        
+        // Obtenir le pourcentage de boost restant (0-1)
+        public float GetBoostPercentage()
+        {
+            return currentBoostAmount / maxBoostAmount;
+        }
+        
+        // Gérer le boost dans FixedUpdate
+        private void ManageBoost()
+        {
+            Debug.Log(currentBoostAmount);
+            // Si le boost est actif et il reste du carburant
+            if (isBoostActive)
+            {
+                // Consommer le boost
+                currentBoostAmount -= boostConsumptionRate * Time.fixedDeltaTime;
+                
+                // Vérifier si le boost est épuisé
+                if (currentBoostAmount <= 0)
+                {
+                    currentBoostAmount = 0;
+                    DeactivateBoost();
+                }
+                
+            }
+            // Si le boost n'est pas actif mais le multiplicateur est encore supérieur à 1
+            else if (currentBoostMultiplier > 1.0f)
+            {
+                // Retour progressif à la vitesse normale
+                currentBoostMultiplier = Mathf.Lerp(currentBoostMultiplier, 1.0f, Time.fixedDeltaTime * boostFalloffSpeed);
+                MaxSpeed = originalMaxSpeed * currentBoostMultiplier;
+                
+                // Réinitialiser quand on est presque à la normale
+                if (currentBoostMultiplier < 1.01f)
+                {
+                    currentBoostMultiplier = 1.0f;
+                    MaxSpeed = originalMaxSpeed;
+                }
+            }
+            
+            // Recharger le boost quand il n'est pas utilisé
+            if (!isBoostActive && boostAutoRecharge && currentBoostAmount < maxBoostAmount)
+            {
+                currentBoostAmount += boostRechargeRate * Time.fixedDeltaTime;
+                currentBoostAmount = Mathf.Min(currentBoostAmount, maxBoostAmount);
+            }
+        }
+        
+        // public void ReloadBoost()
+        // { 
+        //     // Recharge le boost en fonction de la vitesse laterale
+        //     float lateralSpeed = Mathf.Abs(carVelocity.x);
+        //     float boostRecharge = lateralSpeed * boostRechargeRate * Time.fixedDeltaTime;
+        //     currentBoostAmount += boostRecharge;
+        //     currentBoostAmount = Mathf.Min(currentBoostAmount, maxBoostAmount);
+        // }
         
         #endregion
 

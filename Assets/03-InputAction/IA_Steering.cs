@@ -44,6 +44,15 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Boost"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ce58b36-42e0-4eb3-a387-fd7e1ea1d760"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +143,28 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cde8b008-2a65-4293-8528-43c7721ef041"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ce65249-893d-4804-8ec4-fe23596361bf"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -144,6 +175,7 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
         m_Steering = asset.FindActionMap("Steering", throwIfNotFound: true);
         m_Steering_Steering = m_Steering.FindAction("Steering", throwIfNotFound: true);
         m_Steering_Brake = m_Steering.FindAction("Brake", throwIfNotFound: true);
+        m_Steering_Boost = m_Steering.FindAction("Boost", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,12 +239,14 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
     private List<ISteeringActions> m_SteeringActionsCallbackInterfaces = new List<ISteeringActions>();
     private readonly InputAction m_Steering_Steering;
     private readonly InputAction m_Steering_Brake;
+    private readonly InputAction m_Steering_Boost;
     public struct SteeringActions
     {
         private @IA_Steering m_Wrapper;
         public SteeringActions(@IA_Steering wrapper) { m_Wrapper = wrapper; }
         public InputAction @Steering => m_Wrapper.m_Steering_Steering;
         public InputAction @Brake => m_Wrapper.m_Steering_Brake;
+        public InputAction @Boost => m_Wrapper.m_Steering_Boost;
         public InputActionMap Get() { return m_Wrapper.m_Steering; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -228,6 +262,9 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Boost.started += instance.OnBoost;
+            @Boost.performed += instance.OnBoost;
+            @Boost.canceled += instance.OnBoost;
         }
 
         private void UnregisterCallbacks(ISteeringActions instance)
@@ -238,6 +275,9 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Boost.started -= instance.OnBoost;
+            @Boost.performed -= instance.OnBoost;
+            @Boost.canceled -= instance.OnBoost;
         }
 
         public void RemoveCallbacks(ISteeringActions instance)
@@ -259,5 +299,6 @@ public partial class @IA_Steering: IInputActionCollection2, IDisposable
     {
         void OnSteering(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
     }
 }
