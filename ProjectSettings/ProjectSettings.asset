@@ -161,6 +161,7 @@ PlayerSettings:
   androidMinAspectRatio: 1
   applicationIdentifier:
     Android: com.Catchow.Cars
+    Standalone: com.Catchow.Cars
   buildNumber:
     Bratwurst: 0
     Standalone: 0
