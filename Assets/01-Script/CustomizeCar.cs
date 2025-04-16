@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class CustomizeCar : MonoBehaviour
 {
-    //Get The Data For The script add after the spawn
-    [SerializeField] GameObject CanvasCar;
-    [SerializeField] MenuScript script;
-    [SerializeField] CameraControl script2;
-
-    //Rest
     [Header("Scene Loader")]
     [SerializeField] private string sceneName = "Level1-DEVMAP";
     
@@ -120,32 +114,17 @@ public class CustomizeCar : MonoBehaviour
                 Transform body = Mesh.Find("Body");
                 if (body != null)
                 {
-                    CarButton ScriptButton = body.gameObject.AddComponent<CarButton>();
-                    AssignCarButton(ScriptButton);
                     Outline ScriptOutline = body.gameObject.AddComponent<Outline>();
                     ScriptOutline.OutlineWidth = 10;
                 }
             }
+            Transform Canvas = carInstance.transform.Find("Canvas");
+            Canvas.gameObject.SetActive(false);
         }
         else
         {
             Debug.LogError("Index de voiture invalide : " + index);
         }
-    }
-
-    void AssignCarButton(CarButton carButton)
-    {
-        // Utiliser de la réflexion pour accéder aux SerializeField privés
-        var type = typeof(CarButton);
-
-        type.GetField("CanvasCar", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .SetValue(carButton, CanvasCar);
-
-        type.GetField("script", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .SetValue(carButton, script);
-
-        type.GetField("script2", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .SetValue(carButton, script2);
     }
 
     // Next car

@@ -8,7 +8,9 @@ public class MenuScript : MonoBehaviour
     [SerializeField] GameObject Camera;
     [SerializeField] GameObject Screen;
     [SerializeField] GameObject Menu;
+    [SerializeField] GameObject Customize;
     [SerializeField] TransitionManagement script;
+    [SerializeField] CameraControl script2;
 
     public Transform cameraTargetPosition;
     public Transform cameraTargetPositionGarage;
@@ -25,6 +27,12 @@ public class MenuScript : MonoBehaviour
     public void GoMenu()
     {
         StartCoroutine(WaitToGoMenu());
+        StartCoroutine(SetColor(new Color(50f / 255f, 50f / 255f, 53f / 255f)));
+    }
+
+    public void GoCustom()
+    {
+        StartCoroutine(WaitToGoPersonalize());
         StartCoroutine(SetColor(new Color(50f / 255f, 50f / 255f, 53f / 255f)));
     }
 
@@ -49,6 +57,7 @@ public class MenuScript : MonoBehaviour
 
     public IEnumerator WaitToGoMenu()
     {
+        Customize.SetActive(false);
         script.Wait();
         Transform cam = Camera.transform;
         Vector3 startPos = cam.position;
@@ -77,6 +86,7 @@ public class MenuScript : MonoBehaviour
 
     public IEnumerator WaitToGoGarage()
     {
+        Customize.SetActive(false);
         script.Wait();
         Menu.SetActive(false);
         Screen.GetComponent<VideoPlayer>().Play();
@@ -105,6 +115,7 @@ public class MenuScript : MonoBehaviour
 
     public IEnumerator WaitToGoPersonalize()
     {
+        script2.rotationSpeed = 0;
         script.Wait();
         Menu.SetActive(false);
         Screen.GetComponent<VideoPlayer>().Play();
@@ -124,6 +135,7 @@ public class MenuScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+        Customize.SetActive(true);
 
         cam.position = targetPos;
         cam.rotation = targetRot;

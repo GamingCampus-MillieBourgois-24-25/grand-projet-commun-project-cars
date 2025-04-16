@@ -10,7 +10,6 @@ public class CarButton : MonoBehaviour
 
     public void OnClick()
     {
-        CanvasCar.SetActive(true);
         script2.rotationSpeed = 0;
         StartCoroutine(script.WaitToGoPersonalize());
     }
