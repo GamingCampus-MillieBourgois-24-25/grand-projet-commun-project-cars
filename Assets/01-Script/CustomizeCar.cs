@@ -521,11 +521,31 @@ public class CustomizeCar : MonoBehaviour
         rouesIndex = currentPlayerData.PlayerCarRouesIndex;
         
         ChangeCar(carIndex);
-        ChangeAccessoiresMaterial(accessoiresIndex);
-        ChangeCarrosserieMaterial(carrosserieIndex);
-        ChangePharesMaterial(pharesIndex);
-        ChangeVitresMaterial(vitresIndex);
-        ChangeRouesMaterial(rouesIndex);
+        
+        if (carData.IsMaterialEnabled(CarMaterialType.Accessoires))
+        {
+            ChangeAccessoiresMaterial(accessoiresIndex);
+        }
+        
+        if (carData.IsMaterialEnabled(CarMaterialType.Carrosserie))
+        {
+            ChangeCarrosserieMaterial(carrosserieIndex);
+        }
+        
+        if (carData.IsMaterialEnabled(CarMaterialType.Phares))
+        {
+            ChangePharesMaterial(pharesIndex);
+        }
+        
+        if (carData.IsMaterialEnabled(CarMaterialType.Vitres))
+        {
+            ChangeVitresMaterial(vitresIndex);
+        }
+        
+        if (carData.IsMaterialEnabled(CarMaterialType.Roues))
+        {
+            ChangeRouesMaterial(rouesIndex);
+        }
     }
     
 }
