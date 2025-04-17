@@ -28,20 +28,25 @@ MonoBehaviour:
       materials:
       - {fileID: 2100000, guid: dc395673a5e21f746991af8076b211c3, type: 2}
       indexInRenderer: 0
+      isEnabled: 1
     carrosserieMaterials:
       nomCollection: 
       materials: []
       indexInRenderer: 0
+      isEnabled: 0
     pharesMaterials:
       nomCollection: 
       materials: []
       indexInRenderer: 0
+      isEnabled: 0
     rouesMaterials:
       nomCollection: Roues
       materials:
       - {fileID: 2100000, guid: dc395673a5e21f746991af8076b211c3, type: 2}
       indexInRenderer: 0
+      isEnabled: 1
     vitresMaterials:
       nomCollection: 
       materials: []
       indexInRenderer: 0
+      isEnabled: 0
