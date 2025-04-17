@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183434bb0415ee041a0d7bbd1d7d086d, type: 3}
+  m_Name: HyperCar2  - Placeholder
+  m_EditorClassIdentifier: 
+  car:
+    carName: Htpercar2  - Placeholder
+    carPrefab: {fileID: 2228039804818408100, guid: c98c7f783b5016745a0a663f4efc94d3,
+      type: 3}
+    chassisRenderer:
+      componentTag: Body
+    rouesRenderers:
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    - componentTag: Roue
+    accessoiresMaterials:
+      nomCollection: Global
+      materials:
+      - {fileID: 2100000, guid: dc395673a5e21f746991af8076b211c3, type: 2}
+      indexInRenderer: 0
+    carrosserieMaterials:
+      nomCollection: 
+      materials: []
+      indexInRenderer: 0
+    pharesMaterials:
+      nomCollection: 
+      materials: []
+      indexInRenderer: 0
+    rouesMaterials:
+      nomCollection: Roues
+      materials:
+      - {fileID: 2100000, guid: dc395673a5e21f746991af8076b211c3, type: 2}
+      indexInRenderer: 0
+    vitresMaterials:
+      nomCollection: 
+      materials: []
+      indexInRenderer: 0
