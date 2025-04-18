@@ -4,11 +4,11 @@
 - Active scene:
   - Name: Level1
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, ignoreSensor, Body, Roue, Bullet, Gun
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, ignoreSensor, Body, Roue
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, drivable, carbody, SphereRB
 - Active game object:
-  - Name: Cube
-  - Tag: Untagged
-  - Layer: Default
+  - Name: Plane
+  - Tag: ignoreSensor
+  - Layer: drivable
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
