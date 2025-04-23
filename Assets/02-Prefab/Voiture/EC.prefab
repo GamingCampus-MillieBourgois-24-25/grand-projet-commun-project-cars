@@ -5340,7 +5340,7 @@ MonoBehaviour:
   driftMultiplier: 1.5
   MaxSpeed: 100
   accelaration: 20
-  turn: 10
+  turn: 15
   gravity: 7
   downforce: 5
   AirControl: 0

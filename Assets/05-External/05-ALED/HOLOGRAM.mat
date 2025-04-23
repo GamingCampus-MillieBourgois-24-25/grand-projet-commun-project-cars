@@ -47,14 +47,14 @@ Material:
     - _BUILTIN_ZTest: 4
     - _BUILTIN_ZWrite: 0
     - _BUILTIN_ZWriteControl: 0
-    - _FresnelPower: 3
+    - _FresnelPower: 1
     - _UseBreathingEffect: 0
-    - _VertexOffset: 0
+    - _VertexOffset: 0.005
     m_Colors:
     - _FresnelColor: {r: 0, g: 4.2282114, b: 126.50716, a: 1}
     - _Remap: {r: 1, g: 1, b: 0, a: 0}
-    - _ScanLinesSpeed: {r: 0, g: 1, b: 0, a: 0}
-    - _ScanLinesTiling: {r: 1, g: 20, b: 0, a: 0}
+    - _ScanLinesSpeed: {r: 1, g: 1, b: 0, a: 0}
+    - _ScanLinesTiling: {r: 1, g: 15, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3462825444784449364
