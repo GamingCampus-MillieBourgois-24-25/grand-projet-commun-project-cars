@@ -16,6 +16,9 @@ public class SelectPage : MonoBehaviour
             if (ButtonsPage[i].GetComponent<IsActive>().GetBool())
             {
                 ButtonsPage[i].GetComponent<Image>().sprite = InactiveSprite;
+                Color color = ButtonsPage[i].GetComponent<Image>().color;
+                color.a = 0.4f;
+                ButtonsPage[i].GetComponent<Image>().color = color;
                 ButtonsPage[i].GetComponent<IsActive>().SetBool(false);
             }
         }
@@ -30,5 +33,12 @@ public class SelectPage : MonoBehaviour
                 ScrollView[i].SetActive(false);
             }
         }
+    }
+
+    public void ChangePage(Image Page)
+    {
+        Color clr = Page.color;
+        clr.a = 1f; 
+        Page.color = clr;
     }
 }

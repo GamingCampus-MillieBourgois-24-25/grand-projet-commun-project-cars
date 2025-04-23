@@ -64,7 +64,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Car
     public void NextItemCar()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -74,7 +73,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemCar()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -85,7 +83,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Roues
     public void NextItemRoues()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -95,7 +92,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemRoues()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -106,7 +102,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Vitres
     public void NextItemVitres()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -116,7 +111,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemVitres()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -127,7 +121,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Accessory
     public void NextItemAccessory()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -137,7 +130,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemAccessory()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -148,7 +140,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Material
     public void NextItemMaterial()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -158,7 +149,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemMaterial()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -169,7 +159,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     //Phares
     public void NextItemPhares()
     {
-        Next.interactable = false;
         if (ItemNumber < ItemNames.Length - 1)
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
@@ -179,7 +168,6 @@ public class ScrollSnapToCenter : MonoBehaviour
 
     public void PreviousItemPhares()
     {
-        Previous.interactable = false;
         if (ItemNumber > 0)
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
@@ -191,6 +179,5 @@ public class ScrollSnapToCenter : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         action();
-        bouton.interactable = true;
     }
 }
