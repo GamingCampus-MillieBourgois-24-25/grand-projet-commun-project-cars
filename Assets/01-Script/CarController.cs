@@ -393,7 +393,6 @@ namespace CarController
         // Gérer le boost dans FixedUpdate
         private void ManageBoost()
         {
-            Debug.Log(currentBoostAmount);
             // Si le boost est actif et il reste du carburant
             if (isBoostActive)
             {
