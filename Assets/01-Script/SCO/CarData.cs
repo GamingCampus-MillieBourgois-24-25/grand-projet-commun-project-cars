@@ -17,6 +17,7 @@ public struct MaterialCollection
     public string nomCollection;
     public List<Material> materials;
     public int indexInRenderer;
+    public bool isEnabled;
 }
 
 [Serializable]
@@ -121,6 +122,25 @@ public class CarData : ScriptableObject
                 return car.vitresMaterials.indexInRenderer;
             default:
                 return -1;
+        }
+    }
+    
+    public bool IsMaterialEnabled(CarMaterialType type)
+    {
+        switch (type)
+        {
+            case CarMaterialType.Accessoires:
+                return car.accessoiresMaterials.isEnabled;
+            case CarMaterialType.Carrosserie:
+                return car.carrosserieMaterials.isEnabled;
+            case CarMaterialType.Phares:
+                return car.pharesMaterials.isEnabled;
+            case CarMaterialType.Roues:
+                return car.rouesMaterials.isEnabled;
+            case CarMaterialType.Vitres:
+                return car.vitresMaterials.isEnabled;
+            default:
+                return false;
         }
     }
     

@@ -5336,10 +5336,11 @@ MonoBehaviour:
   drivableSurface:
     serializedVersion: 2
     m_Bits: 64
+  virtualCamera: {fileID: 5374878589520453549}
   driftMultiplier: 1.5
   MaxSpeed: 100
   accelaration: 20
-  turn: 10
+  turn: 15
   gravity: 7
   downforce: 5
   AirControl: 0
@@ -5426,6 +5427,15 @@ MonoBehaviour:
   minPitch: 0.3
   MaxPitch: 3
   SkidSound: {fileID: 5817243479883471560}
+  boostMaxSpeedMultiplier: 1.5
+  boostFalloffSpeed: 4
+  maxBoostAmount: 100
+  boostConsumptionRate: 25
+  boostRechargeRate: 10
+  boostAutoRecharge: 1
+  boostParticles: {fileID: 0}
+  boostSound: {fileID: 0}
+  boostEmptySound: {fileID: 0}
   skidWidth: 0.19100103
 --- !u!54 &7621182018614023220
 Rigidbody:

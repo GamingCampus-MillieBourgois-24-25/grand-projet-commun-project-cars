@@ -31,6 +31,7 @@ namespace AICarController
         [HideInInspector]
         public float ObstacleAngle;
         public string IgnoreSensorTag;
+        public string[] IgnoreSensorTags;
 
 
 
@@ -49,15 +50,18 @@ namespace AICarController
 
                 if (Physics.Raycast(sensor_.sensorPoint.position, sensor_.sensorPoint.forward, out sensor_.hit, sensorLength))
                 {
-                    if (sensor_.hit.collider.CompareTag(IgnoreSensorTag))
+                    
+                    for (int i = 0; i < IgnoreSensorTags.Length; i++)
                     {
-                        sensor_.weight = 0;
-                    }
-                    else
-                    {
-                        sensor_.weight = 1;
-
-                        Debug.DrawLine(sensor_.sensorPoint.position, sensor_.hit.point, Color.red);
+                        if (sensor_.hit.collider.CompareTag(IgnoreSensorTags[i]))
+                        {
+                            sensor_.weight = 0;
+                        }
+                        else
+                        {
+                            sensor_.weight = 1;
+                            Debug.DrawLine(sensor_.sensorPoint.position, sensor_.hit.point, Color.red);
+                        }
                     }
 
                 }

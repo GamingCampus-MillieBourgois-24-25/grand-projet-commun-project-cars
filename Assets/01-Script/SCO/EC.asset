@@ -29,27 +29,32 @@ MonoBehaviour:
       - {fileID: 2100000, guid: ad69c9868b6909341a81154530c484be, type: 2}
       - {fileID: 2100000, guid: 9d5d6f4788586864ca4ddeaca8b11e8d, type: 2}
       indexInRenderer: 1
+      isEnabled: 1
     carrosserieMaterials:
       nomCollection: Easter Egg Carrosserie
       materials:
       - {fileID: 2100000, guid: ff0c13110149b674cb30c037ba2494e3, type: 2}
       - {fileID: 2100000, guid: 97898086597fde442bf08e0617b56b57, type: 2}
       indexInRenderer: 0
+      isEnabled: 1
     pharesMaterials:
       nomCollection: Easter Egg Phares
       materials:
       - {fileID: 2100000, guid: 658cbfa7d0f891d41b7b29fc460239a6, type: 2}
       - {fileID: 2100000, guid: fc91652d7a1f0b34ba669239cac49298, type: 2}
       indexInRenderer: 2
+      isEnabled: 1
     rouesMaterials:
       nomCollection: Easter Egg Roues
       materials:
       - {fileID: 2100000, guid: f1337d9f1e53c47419f0c2b32b8f42be, type: 2}
       - {fileID: 2100000, guid: 5d0d6170c8cd4f84994a0198819c9516, type: 2}
       indexInRenderer: 0
+      isEnabled: 1
     vitresMaterials:
       nomCollection: Easter Egg Vitres
       materials:
       - {fileID: 2100000, guid: 74d52feac1c9dcf4f83f3a34597d7f3e, type: 2}
       - {fileID: 2100000, guid: fbf208072b348ea468b681c4c891196a, type: 2}
       indexInRenderer: 3
+      isEnabled: 1

@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122926735416814970}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12761535, y: -0, z: -0, w: 0.99182373}
-  m_LocalPosition: {x: 0, y: 1.57, z: -6}
+  m_LocalRotation: {x: 0.12761533, y: -0, z: -0, w: 0.99182373}
+  m_LocalPosition: {x: 0, y: 1.5699999, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -335,6 +335,7 @@ MonoBehaviour:
   drivableSurface:
     serializedVersion: 2
     m_Bits: 64
+  virtualCamera: {fileID: 5174579445749807144}
   driftMultiplier: 1.5
   MaxSpeed: 100
   accelaration: 20
@@ -425,6 +426,15 @@ MonoBehaviour:
   minPitch: 0.3
   MaxPitch: 3
   SkidSound: {fileID: 4370868031816463510}
+  boostMaxSpeedMultiplier: 1.5
+  boostFalloffSpeed: 4
+  maxBoostAmount: 100
+  boostConsumptionRate: 25
+  boostRechargeRate: 10
+  boostAutoRecharge: 1
+  boostParticles: {fileID: 0}
+  boostSound: {fileID: 0}
+  boostEmptySound: {fileID: 0}
   skidWidth: 0.14548439
 --- !u!54 &6257458534440818047
 Rigidbody:

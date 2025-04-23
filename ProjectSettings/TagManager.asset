@@ -7,6 +7,7 @@ TagManager:
   - ignoreSensor
   - Body
   - Roue
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - drivable
   - carbody
   - SphereRB
-  - 
+  - ingoreProjectile
   - 
   - 
   - 
