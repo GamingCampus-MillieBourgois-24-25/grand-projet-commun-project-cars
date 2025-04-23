@@ -9,12 +9,14 @@ public class MenuScript : MonoBehaviour
     [SerializeField] GameObject Screen;
     [SerializeField] GameObject Menu;
     [SerializeField] GameObject Customize;
+    [SerializeField] GameObject Maps;
     [SerializeField] TransitionManagement script;
     [SerializeField] CameraControl script2;
 
     public Transform cameraTargetPosition;
     public Transform cameraTargetPositionGarage;
     public Transform cameraTargetPositionPersonalize;
+    public Transform cameraTargetPositionMap;
     public float lerpDuration = 2.0f;
     public bool IsTransitioning = false;
 
@@ -34,6 +36,11 @@ public class MenuScript : MonoBehaviour
     {
         StartCoroutine(WaitToGoPersonalize());
         StartCoroutine(SetColor(new Color(50f / 255f, 50f / 255f, 53f / 255f)));
+    }
+
+    public void GoMap()
+    {
+        StartCoroutine(WaitToGoMap());
     }
 
     public IEnumerator SetColor(Color choice)
@@ -57,6 +64,7 @@ public class MenuScript : MonoBehaviour
 
     public IEnumerator WaitToGoMenu()
     {
+        script2.rotationSpeed = 0;
         Customize.SetActive(false);
         script.Wait();
         Transform cam = Camera.transform;
@@ -111,6 +119,7 @@ public class MenuScript : MonoBehaviour
         cam.rotation = targetRot;
         yield return new WaitForSeconds(.5f);
         script.Go();
+        script2.rotationSpeed = 1;
     }
 
     public IEnumerator WaitToGoPersonalize()
@@ -139,6 +148,35 @@ public class MenuScript : MonoBehaviour
 
         cam.position = targetPos;
         cam.rotation = targetRot;
+        yield return new WaitForSeconds(.5f);
+        script.Go();
+    }
+
+    public IEnumerator WaitToGoMap()
+    {
+        script2.rotationSpeed = 0;
+        Customize.SetActive(false);
+        script.Wait();
+        Transform cam = Camera.transform;
+        Vector3 startPos = cam.position;
+        Quaternion startRot = cam.rotation;
+        Vector3 targetPos = cameraTargetPositionMap.position;
+        Quaternion targetRot = cameraTargetPositionMap.rotation;
+
+        float elapsed = 0f;
+
+        while (elapsed < lerpDuration)
+        {
+            float t = elapsed / lerpDuration;
+            cam.position = Vector3.Lerp(startPos, targetPos, t);
+            cam.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cam.position = targetPos;
+        cam.rotation = targetRot;
+        Maps.SetActive(true);
         yield return new WaitForSeconds(.5f);
         script.Go();
     }
