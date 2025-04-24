@@ -8,6 +8,7 @@ using System;
 public class ScrollSnapToCenter : MonoBehaviour
 {
     [SerializeField] CustomizeCar script;
+    [SerializeField] SaveData script2 ;
     [SerializeField] Button Next;
     [SerializeField] Button Previous;
     public ScrollRect scrollRect;

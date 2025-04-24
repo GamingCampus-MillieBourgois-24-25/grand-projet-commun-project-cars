@@ -20,7 +20,7 @@ public class SelectPage : MonoBehaviour
                 color.a = 0.4f;
                 ButtonsPage[i].GetComponent<Image>().color = color;
                 ButtonsPage[i].GetComponent<IsActive>().SetBool(false);
-            }
+             }
         }
     }
 
