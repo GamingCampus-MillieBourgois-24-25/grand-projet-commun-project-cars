@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, drivable, carbody, SphereRB, ingoreProjectile
 - Active game object:
-  - Name: CinematiqueTarget
+  - Name: Cinematique
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

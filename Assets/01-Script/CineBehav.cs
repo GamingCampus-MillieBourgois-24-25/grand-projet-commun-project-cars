@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class CineBehav : MonoBehaviour
 {
-    //[Header("Starting Line Sequence")]
+    [Header("Section 1")]
+    [SerializeField] private GameObject section1Target1;
+    [SerializeField] private Vector3 section1Target1Pos;
     
     
+    public void MoveTargetToNextPosition()
+    {
+        
+        
+
+    }
     
 }
