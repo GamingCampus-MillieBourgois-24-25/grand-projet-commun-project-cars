@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 4370868031816463510}
   m_Layer: 7
   m_Name: GC
-  m_TagString: Untagged
+  m_TagString: Joueur
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -582,7 +582,7 @@ MonoBehaviour:
   gravity: 7
   downforce: 5
   AirControl: 0
-  kartLike: 0
+  kartLike: 1
   rb: {fileID: 1326627286967688033}
   carBody: {fileID: 6257458534440818047}
   frictionCurve:

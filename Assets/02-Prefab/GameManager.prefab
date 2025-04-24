@@ -56,6 +56,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c63fd92c2e59d445b6a9bc57740b4c9, type: 2}
   - {fileID: 11400000, guid: 03e5c172806e1474f8a0cb9cf5934fc7, type: 2}
   - {fileID: 11400000, guid: 6fade05413f277448b3a80887656a987, type: 2}
+  maxLap: 3
+  startGame: {fileID: 0}
+  startGameActive: 1
+  ligthSequenceTime: 1
+  startGameTime: 0.5
+  startGameMaterials:
+  - {fileID: 2100000, guid: eb47b573aa641f445854184a3b861b43, type: 2}
+  - {fileID: 2100000, guid: 766c4f8413992b44b98a650e780320e5, type: 2}
+  - {fileID: 2100000, guid: b9e1248c273497b44864afed373ab3fb, type: 2}
 --- !u!114 &9089306209289546598
 MonoBehaviour:
   m_ObjectHideFlags: 0

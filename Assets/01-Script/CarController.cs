@@ -72,6 +72,7 @@ namespace CarController
         private IA_Steering steeringAction;
         private float radius, steeringInput, accelerationInput, brakeInput, boostInput;
         private Vector3 origin;
+        private float currentLap;
         
         #endregion
         
@@ -109,7 +110,34 @@ namespace CarController
         {
             Visuals();
             AudioManager();
-            ProcessInputs();
+
+            if (GameManager.Instance.CanMove)
+            {
+                ProcessInputs();
+            }
+            
+        }
+
+        // getter and setter
+        
+        public float GetCurrentLap()
+        {
+            return currentLap;
+        }
+        
+        public void SetCurrentLap(float lap)
+        {
+            currentLap = lap;
+        }
+        
+        public void LapCompleted()
+        {
+            
+            currentLap++;
+            if (currentLap > GameManager.Instance.MaxLap)
+            {
+                GameManager.Instance.RaceFinished();
+            }
         }
         
         void FixedUpdate()

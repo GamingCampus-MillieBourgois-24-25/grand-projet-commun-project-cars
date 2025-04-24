@@ -14,6 +14,19 @@ public class GameManager : MonoBehaviour
     
     [Header("Game Settings")]
     [SerializeField] private CarData[] carData;
+
+    [Header("Gameplay Settings")] 
+    [SerializeField] private int maxLap;
+    
+    [Header("Game Start")]
+    [SerializeField] private GameObject startGame;
+    [SerializeField] private bool startGameActive;
+    [SerializeField] private float ligthSequenceTime = 1f;
+    [SerializeField] private float startGameTime = 2f;
+    [SerializeField] private Material[] startGameMaterials;
+    
+    private bool canMove = false;
+    private int playerCurrentLap = 0;
     
     #endregion
     
@@ -48,10 +61,82 @@ public class GameManager : MonoBehaviour
         ChargerDonnees();
     } 
     
+    private void Start()
+    {
+        // Initialiser le jeu
+        if (startGameActive)
+        {
+            StartGameSequence();
+        }
+    }
+    
+    #endregion
+    
+    #region startGame
+
+    private void StartGameSequence()
+    {
+        // Lancer la coroutine de la séquence de départ
+        StartCoroutine(StartGameCoroutine());
+    }
+
+    private IEnumerator StartGameCoroutine()
+    {
+        // Attendre startGameTime secondes avant de commencer la séquence
+        Debug.Log("Attente de " + startGameTime + " secondes avant le démarrage...");
+        yield return new WaitForSeconds(startGameTime);
+    
+        // Commencer la séquence de lumières
+        Debug.Log("Début de la séquence de lumières");
+    
+        // Pour chaque matériau dans le tableau
+        for (int i = 0; i < startGameMaterials.Length; i++)
+        {
+            
+            yield return new WaitForSeconds(ligthSequenceTime);
+            // Changer le matériau
+            startGame.GetComponent<MeshRenderer>().material = startGameMaterials[i];
+            Debug.Log("Changement de matériau: " + startGameMaterials[i].name);
+            
+        }
+    
+        // Réinitialiser le matériau à celui par défaut
+        // Peut être implementé si nécessaire
+        
+        CanMove = true;
+        
+        Debug.Log("Séquence de départ terminée");
+    }
+    
     #endregion
     
     #region Getter And Setter
     // Getters and Setters
+    
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
+    
+    public int MaxLap
+    {
+        get { return maxLap; }
+        set { maxLap = value; }
+    }
+    
+    public int PlayerCurrentLap
+    {
+        get { return playerCurrentLap; }
+        set { playerCurrentLap = value; }
+    }
+    
+    // Race finished
+    public void RaceFinished()
+    {
+        canMove = false;
+        Debug.Log("Course terminée !");
+    }
     
     // Get the car data based on the index
     public CarData GetCarData(int index)
