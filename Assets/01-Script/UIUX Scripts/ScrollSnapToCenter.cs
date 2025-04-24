@@ -179,5 +179,6 @@ public class ScrollSnapToCenter : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         action();
+        script.SaveCarData();
     }
 }

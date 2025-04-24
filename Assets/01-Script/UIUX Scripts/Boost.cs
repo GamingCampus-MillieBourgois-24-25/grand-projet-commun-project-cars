@@ -1,0 +1,19 @@
+using CarController;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Boost : MonoBehaviour
+{
+    [SerializeField] TMPro.TextMeshPro m_TextMeshPro;
+    [SerializeField] Slider boost;
+    [SerializeField] CarController.CarController script;
+
+    void Update()
+    {
+        //m_TextMeshPro.SetText(script.GetCurrentLap());
+        float boostRatio = script.GetBoostAmount() / script.GetMaxBoostAmount();
+        boost.value = 1 - boostRatio;
+    }
+}
