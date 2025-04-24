@@ -131,6 +131,29 @@ namespace AICarController
 
 			curveVelocity = Mathf.Abs(carVelocity.magnitude) / 100;
 
+			// Si le mouvement n'est pas autorisé, on arrête complètement le véhicule
+			if (!GameManager.Instance.CanMove)
+			{
+				float emergencyBrakeInput = brakeForce * Time.fixedDeltaTime * 1000;
+				SpeedAI = 0;
+				TurnAI = 0;
+				brakeAI = -1;
+      
+				// Appliquer le freinage d'urgence pour arrêter la voiture
+				if (carVelocity.z > 0.1f)
+				{
+					rb.AddForceAtPosition(transform.forward * -emergencyBrakeInput, groundCheck.position);
+				}
+				if (carVelocity.z < -0.1f)
+				{
+					rb.AddForceAtPosition(transform.forward * emergencyBrakeInput, groundCheck.position);
+				}
+      
+				// Ajouter une résistance supplémentaire pour l'arrêter plus rapidement
+				rb.drag = 5f;
+				return; // Sortir de la méthode pour ne pas exécuter le reste du code
+			}
+			
 			//inputs
 			float turnInput;
 			if (sensorScript.obstacleInPath == true)

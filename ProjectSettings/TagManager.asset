@@ -8,6 +8,7 @@ TagManager:
   - Body
   - Roue
   - Enemy
+  - Joueur
   layers:
   - Default
   - TransparentFX

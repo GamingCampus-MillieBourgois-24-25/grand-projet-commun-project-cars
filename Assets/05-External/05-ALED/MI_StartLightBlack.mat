@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MI_StartLight
+  m_Name: MI_StartLightBlack
   m_Shader: {fileID: -6465566751694194690, guid: 7f4a12f780cb84d42897b9795a945c2b,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 0ca296a70ef2745409c894640e15a030, type: 2}
