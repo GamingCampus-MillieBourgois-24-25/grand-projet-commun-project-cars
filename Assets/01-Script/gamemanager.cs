@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     
     private bool canMove = false;
     private int playerCurrentLap = 0;
+    private GameObject playeCarInstance;
     
     #endregion
     
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
     
     #region startGame
 
-    private void StartGameSequence()
+    public void StartGameSequence()
     {
         // Lancer la coroutine de la séquence de départ
         StartCoroutine(StartGameCoroutine());
@@ -112,6 +113,12 @@ public class GameManager : MonoBehaviour
     
     #region Getter And Setter
     // Getters and Setters
+    
+    public GameObject PlayerCarInstance
+    {
+        get { return playeCarInstance; }
+        set { playeCarInstance = value; }
+    }
     
     public bool IsStartGameActive
     {

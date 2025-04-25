@@ -44223,8 +44223,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1142227231}
   - component: {fileID: 1142227234}
-  - component: {fileID: 1142227233}
-  - component: {fileID: 1142227232}
+  - component: {fileID: 1142227236}
+  - component: {fileID: 1142227237}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -44247,7 +44247,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1211740150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1142227232
+--- !u!114 &1142227234
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44256,20 +44256,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142227230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
---- !u!114 &1142227233
+--- !u!114 &1142227236
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44296,7 +44286,7 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
---- !u!114 &1142227234
+--- !u!114 &1142227237
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44305,9 +44295,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142227230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_BindingMode: 1
+  m_FollowOffset: {x: 0, y: 0, z: 0}
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
+  m_AngularDampingMode: 0
+  m_PitchDamping: 0
+  m_YawDamping: 0
+  m_RollDamping: 0
+  m_AngularDamping: 0
 --- !u!1001 &1142736280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46688,8 +46688,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211740149}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.019881055, y: -0.36722097, z: -0.007851203, w: 0.9298881}
-  m_LocalPosition: {x: 188, y: -11.3, z: -68.3}
+  m_LocalRotation: {x: -0.021167222, y: -0.40445343, z: -0.009363968, w: 0.9142657}
+  m_LocalPosition: {x: 188, y: -11.3, z: -58.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46717,7 +46717,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 198715579}
   m_Follow: {fileID: 702424488}
   m_Lens:
-    FieldOfView: 120
+    FieldOfView: 80
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -73307,13 +73307,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionTarget:
   - {fileID: 702424487}
+  - {fileID: 1387381342}
   sectionTargetPos:
   - {x: 77.01, y: 51.99, z: -58.3}
+  - {x: 1.5, y: 0, z: -20}
   virtualCamera:
   - {fileID: 1211740151}
+  - {fileID: 2063395995}
   moveSpeed: 15
-  loopSequence: 1
+  loopSequence: 0
   waitTimeBetweenSequences: 0.5
+  pauseBeforeRestart: 2
   defaultPriority: 10
   activePriority: 15
   useInstantCuts: 1
@@ -82322,7 +82326,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 1387381343}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 120
+    FieldOfView: 80
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -83355,7 +83359,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 120
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -83381,8 +83385,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095859813}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.019881058, y: -0.367221, z: -0.007851204, w: 0.9298881}
-  m_LocalPosition: {x: 186.25554, y: -4.2229257, z: -25.65752}
+  m_LocalRotation: {x: -0.021167224, y: -0.40445346, z: -0.009363971, w: 0.91426563}
+  m_LocalPosition: {x: 186.25554, y: -4.2229257, z: -15.65752}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83415,7 +83419,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
+    m_Style: 0
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2

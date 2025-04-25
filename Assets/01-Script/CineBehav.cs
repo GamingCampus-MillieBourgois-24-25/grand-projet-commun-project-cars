@@ -10,46 +10,34 @@ public class CineBehav : MonoBehaviour
     [SerializeField] private GameObject[] sectionTarget;
     [SerializeField] private Vector3[] sectionTargetPos;
     [SerializeField] private CinemachineVirtualCamera[] virtualCamera;
+    private CinemachineVirtualCamera playerCamera;
+    private GameObject player;
 
     [Header("Paramètres de la séquence")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private bool loopSequence = true;
     [SerializeField] private float waitTimeBetweenSequences = 0.5f;
-    
+    [SerializeField] private float pauseBeforeRestart = 2f; // Pause avant de recommencer la boucle
+
     [Header("Paramètres des caméras")]
-    [SerializeField] private int defaultPriority = 0; // Priorité plus basse pour éviter les transitions
+    [SerializeField] private int defaultPriority = 0;
     [SerializeField] private int activePriority = 15;
-    [SerializeField] private bool useInstantCuts = true; // Option pour des coupures nettes entre caméras
+    [SerializeField] private bool useInstantCuts = true;
 
     private int currentIndex = 0;
     private bool isSequenceRunning = false;
 
     private void Start()
     {
-        // Configuration initiale des caméras
-        ConfigureAllCameras();
+        // Get the player that has been spawn by the PlayerSpawnPoint
+        player = GameManager.Instance.PlayerCarInstance;
+        if (player != null)
+        {
+            playerCamera = player.GetComponentInChildren<CinemachineVirtualCamera>();
+        }
         
         // Démarrer la séquence
         StartCameraSequence();
-    }
-    
-    private void ConfigureAllCameras()
-    {
-        for (int i = 0; i < virtualCamera.Length; i++)
-        {
-            // S'assurer que toutes les caméras sont désactivées au départ
-            virtualCamera[i].Priority = defaultPriority;
-            
-            // Vérifier si chaque caméra a un Follow et un LookAt définis
-            if (sectionTarget[i] != null)
-            {
-                // Configurer la cible de suivi (Follow)
-                virtualCamera[i].Follow = sectionTarget[i].transform;
-                
-                // Configurer la cible de regard (LookAt) - optionnel
-                // virtualCamera[i].LookAt = sectionTarget[i].transform;
-            }
-        }
     }
 
     public void StartCameraSequence()
@@ -58,44 +46,90 @@ public class CineBehav : MonoBehaviour
         {
             isSequenceRunning = true;
             currentIndex = 0;
+            
+            // Désactiver la caméra du joueur au début de la séquence
+            if (playerCamera != null)
+            {
+                playerCamera.Priority = defaultPriority;
+            }
+            
             StartCoroutine(CameraSequenceCoroutine());
+        }
+    }
+
+    public void StopCameraSequence()
+    {
+        isSequenceRunning = false;
+        StopAllCoroutines();
+
+        // Réinitialiser toutes les priorités de caméra
+        foreach (var cam in virtualCamera)
+        {
+            if (cam != null)
+                cam.Priority = defaultPriority;
+        }
+        
+        // Activer la caméra du joueur lorsqu'on arrête manuellement la séquence
+        if (playerCamera != null)
+        {
+            playerCamera.Priority = activePriority;
         }
     }
 
     private IEnumerator CameraSequenceCoroutine()
     {
-        while (true)
+        // Continuer tant que la séquence est en cours
+        while (isSequenceRunning)
         {
-            // Vérifier que les tableaux ont la même taille
             if (currentIndex < sectionTarget.Length &&
                 currentIndex < sectionTargetPos.Length &&
                 currentIndex < virtualCamera.Length)
             {
-                // Activer la caméra actuelle d'abord (coupure nette)
+                // Activer la caméra actuelle
                 virtualCamera[currentIndex].Priority = activePriority;
-                
+
                 // Déplacer l'objet cible
                 yield return StartCoroutine(MoveObject(sectionTarget[currentIndex], sectionTargetPos[currentIndex]));
 
-                // Attendre un court instant à la position finale pour une meilleure lisibilité
+                // Attendre un court instant
                 yield return new WaitForSeconds(waitTimeBetweenSequences);
-                
-                // Désactiver la caméra actuelle avant de passer à la suivante
+
+                // Désactiver la caméra actuelle
                 virtualCamera[currentIndex].Priority = defaultPriority;
-                
+
                 // Passer à l'index suivant
                 currentIndex++;
 
-                // Si on a terminé tous les indices et qu'on boucle
-                if (currentIndex >= sectionTarget.Length && loopSequence)
+                // Si on a terminé tous les objets
+                if (currentIndex >= sectionTarget.Length)
                 {
-                    currentIndex = 0;
-                }
-                else if (currentIndex >= sectionTarget.Length)
-                {
-                    // Fin de la séquence sans boucle
-                    isSequenceRunning = false;
-                    break;
+                    // Activer la caméra du joueur à la fin de la séquence
+                    if (playerCamera != null)
+                    {
+                        playerCamera.Priority = activePriority;
+                    }
+
+                    if (loopSequence)
+                    {
+                        // Pause plus longue avant de recommencer
+                        yield return new WaitForSeconds(pauseBeforeRestart);
+
+                        // Désactiver la caméra du joueur avant de redémarrer la séquence
+                        if (playerCamera != null)
+                        {
+                            playerCamera.Priority = defaultPriority;
+                        }
+
+                        currentIndex = 0;
+                    }
+                    else
+                    {
+                        // Fin de la séquence sans boucle
+                        isSequenceRunning = false;
+                        GameManager.Instance.StartGameSequence();
+                        
+                        break;
+                    }
                 }
             }
             else

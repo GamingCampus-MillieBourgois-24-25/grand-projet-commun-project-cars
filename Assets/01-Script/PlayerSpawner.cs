@@ -14,6 +14,9 @@ public class PlayerSpawner : MonoBehaviour
         if (spawnOnStart)
         {
             SpawnPlayerCar();
+            
+            // Passe l'instance de la voiture au GameManager
+            GameManager.Instance.PlayerCarInstance = playerCarInstance;
         }
     }
     
