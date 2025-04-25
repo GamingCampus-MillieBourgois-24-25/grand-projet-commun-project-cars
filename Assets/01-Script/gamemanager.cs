@@ -113,6 +113,12 @@ public class GameManager : MonoBehaviour
     #region Getter And Setter
     // Getters and Setters
     
+    public bool IsStartGameActive
+    {
+        get { return startGameActive; }
+        set { startGameActive = value; }
+    }
+    
     public bool CanMove
     {
         get { return canMove; }
