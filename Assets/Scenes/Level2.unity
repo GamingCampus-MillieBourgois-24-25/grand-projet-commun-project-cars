@@ -1003,6 +1003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1744516870324863782, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
         type: 3}
+      propertyPath: canMove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744516870324863782, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
+        type: 3}
       propertyPath: startGameActive
       value: 0
       objectReference: {fileID: 0}
