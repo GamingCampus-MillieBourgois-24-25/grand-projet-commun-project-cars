@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float startGameTime = 2f;
     [SerializeField] private Material[] startGameMaterials;
     
-    private bool canMove = false;
+    [SerializeField] private bool canMove = false;
     private int playerCurrentLap = 0;
     private GameObject playeCarInstance;
     
