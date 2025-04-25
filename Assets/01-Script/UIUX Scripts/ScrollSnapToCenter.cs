@@ -11,6 +11,7 @@ public class ScrollSnapToCenter : MonoBehaviour
     [SerializeField] SaveData script2 ;
     [SerializeField] Button Next;
     [SerializeField] Button Previous;
+    [SerializeField] string Categorie;
     public ScrollRect scrollRect;
     public RectTransform content;
     public RectTransform SampleListItem;
@@ -29,6 +30,7 @@ public class ScrollSnapToCenter : MonoBehaviour
     private void Start()
     {
         IsSnapped = false;
+        scrollRect.velocity = new Vector2(1350f*script2.GetCar(Categorie), 0f);
     }
 
     void Update()
@@ -69,6 +71,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextCar, Next));
+            script2.SetCar("Car", ItemNumber+1);
         }
     }
 
@@ -78,6 +81,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousCar, Previous));
+            script2.SetCar("Car", ItemNumber+1);
         }
     }
 
@@ -88,6 +92,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextRouesMaterial, Next));
+            script2.SetCar("Roues", ItemNumber+1);
         }
     }
 
@@ -97,6 +102,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousRouesMaterial, Previous));
+            script2.SetCar("Roues", ItemNumber+1);
         }
     }
 
@@ -107,6 +113,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextVitresMaterial, Next));
+            script2.SetCar("Vitres", ItemNumber+1);
         }
     }
 
@@ -116,6 +123,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousVitresMaterial, Previous));
+            script2.SetCar("Vitres", ItemNumber+1);
         }
     }
 
@@ -126,6 +134,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextAccessoiresMaterial, Next));
+            script2.SetCar("Accessory", ItemNumber+1);
         }
     }
 
@@ -135,6 +144,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousAccessoiresMaterial, Previous));
+            script2.SetCar("Accessory", ItemNumber+1);
         }
     }
 
@@ -145,6 +155,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextCarrosserieMaterial, Next));
+            script2.SetCar("Material", ItemNumber+1);
         }
     }
 
@@ -154,6 +165,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousCarrosserieMaterial, Previous));
+            script2.SetCar("Material", ItemNumber+1);
         }
     }
 
@@ -164,6 +176,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(-1350f, 0f);
             StartCoroutine(change(script.NextPharesMaterial, Next));
+            script2.SetCar("Phares", ItemNumber+1);
         }
     }
 
@@ -173,6 +186,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         {
             scrollRect.velocity = new Vector2(1350f, 0f);
             StartCoroutine(change(script.PreviousPharesMaterial, Previous));
+            script2.SetCar("Phares", ItemNumber+1);
         }
     }
 

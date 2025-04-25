@@ -529,7 +529,17 @@ namespace CarController
             }
 
         }
+
+        #endregion
+
+        #region Getters/Setters
+
+        public float GetAccel() { return accelaration; }
+        public float GetMaxSpeed() { return MaxSpeed; }
+        public float GetNitro() { return boostMaxSpeedMultiplier; }
+        public float GetDrift() { return driftMultiplier; }
         
+
         #endregion
 
     }

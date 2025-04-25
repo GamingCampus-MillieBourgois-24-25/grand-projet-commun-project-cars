@@ -25,14 +25,14 @@ public class SaveData : MonoBehaviour
         starsdata = JsonUtility.FromJson<StarData>(data);
     }
 
-    public void SetCar(string categorie, string name)
+    public void SetCar(string categorie, int number)
     {
         // Vérifie si une voiture avec la même catégorie existe déjà
         foreach (SaveCar car in starsdata.levelstar)
         {
             if (car.categorie == categorie)
             {
-                car.name = name; // Mise à jour du nom
+                car.number = number; // Mise à jour du nom
                 SaveToJson();
                 return;
             }
@@ -42,23 +42,23 @@ public class SaveData : MonoBehaviour
         SaveCar newCar = new SaveCar
         {
             categorie = categorie,
-            name = name
+            number = number
         };
         starsdata.levelstar.Add(newCar);
         SaveToJson();
     }
 
-    public string GetCar(string categorie)
+    public int GetCar(string categorie)
     {
         foreach (SaveCar car in starsdata.levelstar)
         {
             if (car.categorie == categorie)
             {
-                return car.name;
+                return car.number;
             }
         }
 
-        return null;
+        return 0;
     }
 }
 
@@ -72,5 +72,5 @@ public class StarData
 public class SaveCar
 {
     public string categorie;
-    public string name;
+    public int number;
 }

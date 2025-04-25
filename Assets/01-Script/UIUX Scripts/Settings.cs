@@ -21,19 +21,25 @@ public class Settings : MonoBehaviour
         ColorBlock cb = ControlActive.colors;
         cb.normalColor = Color.white;
         ControlActive.colors = cb;
+        MusicSlider.value = PlayerPrefs.GetFloat("Music", 0.5f);
+        Game.SetFloat("Music", Mathf.Log10(MusicSlider.value) * 20);
+        EffectsSlider.value = PlayerPrefs.GetFloat("SFX", 0.5f);
+        Game.SetFloat("SFX", Mathf.Log10(EffectsSlider.value) * 20);
     }
 
     public void ChangeVolumeMusic()
     {
         float volume = MusicSlider.value;
         Game.SetFloat("Music", Mathf.Log10(MusicSlider.value) * 20);
-        //GameInstance.instance.SetMusicVolume(MusicSlider.value);
+        PlayerPrefs.SetFloat("Music", MusicSlider.value);
+        PlayerPrefs.Save();
     }
 
     public void ChangeVolumeSFX()
     {
         float volume = EffectsSlider.value;
         Game.SetFloat("SFX", Mathf.Log10(EffectsSlider.value) * 20);
-        //GameInstance.instance.SetMasterVolume(EffectsSlider.value);
+        PlayerPrefs.SetFloat("SFX", EffectsSlider.value);
+        PlayerPrefs.Save();
     }
 }

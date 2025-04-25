@@ -1302,6 +1302,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121377092}
   m_CullTransparentMesh: 1
+--- !u!1 &129739211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6587011242554266480, guid: e9cf0572182a6e543b2f812481ff23c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 241691951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &135793787
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,6 +5419,7 @@ GameObject:
   - component: {fileID: 624713867}
   - component: {fileID: 624713869}
   - component: {fileID: 624713868}
+  - component: {fileID: 624713870}
   m_Layer: 5
   m_Name: Acceleration
   m_TagString: Untagged
@@ -5478,6 +5485,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624713866}
   m_CullTransparentMesh: 1
+--- !u!114 &624713870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624713866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3062f3abee7f53848869336a2b12a0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoint: {fileID: 129739211}
+  Barres:
+  - {fileID: 992406520}
+  - {fileID: 604597370}
+  - {fileID: 1214158087}
+  - {fileID: 962347638}
+  - {fileID: 462006130}
+  - {fileID: 1865364541}
+  Categorie: 0
 --- !u!1 &645313087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6791,9 +6819,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 782487285}
   Previous: {fileID: 1433190592}
+  Categorie: Roues
   scrollRect: {fileID: 764554768}
   content: {fileID: 1618138264}
   SampleListItem: {fileID: 198594195}
@@ -9689,6 +9718,7 @@ GameObject:
   - component: {fileID: 1062301076}
   - component: {fileID: 1062301077}
   - component: {fileID: 1062301078}
+  - component: {fileID: 1062301079}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -9737,6 +9767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb073942896897439f5275173f799f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: {fileID: 163363055}
 --- !u!114 &1062301077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9766,6 +9797,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starsdata:
     levelstar: []
+--- !u!114 &1062301079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062301073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77b7aec9384705489d1c88e0293abb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game: {fileID: 24100000, guid: ed806f769a57f2848b1f996fe05fe235, type: 2}
 --- !u!1 &1083562082
 GameObject:
   m_ObjectHideFlags: 0
@@ -11517,9 +11561,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 570396521}
   Previous: {fileID: 216367563}
+  Categorie: Vitres
   scrollRect: {fileID: 1271135664}
   content: {fileID: 1665017382}
   SampleListItem: {fileID: 1205179256}
@@ -12039,6 +12084,7 @@ GameObject:
   - component: {fileID: 1353348421}
   - component: {fileID: 1353348423}
   - component: {fileID: 1353348422}
+  - component: {fileID: 1353348424}
   m_Layer: 5
   m_Name: Drift
   m_TagString: Untagged
@@ -12104,6 +12150,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353348420}
   m_CullTransparentMesh: 1
+--- !u!114 &1353348424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353348420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3062f3abee7f53848869336a2b12a0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoint: {fileID: 129739211}
+  Barres:
+  - {fileID: 1687852922}
+  - {fileID: 1063397}
+  - {fileID: 837329796}
+  - {fileID: 1641111127}
+  - {fileID: 623392973}
+  - {fileID: 497393033}
+  Categorie: 1
 --- !u!1 &1381652569
 GameObject:
   m_ObjectHideFlags: 0
@@ -12573,6 +12640,7 @@ GameObject:
   - component: {fileID: 1419274075}
   - component: {fileID: 1419274077}
   - component: {fileID: 1419274076}
+  - component: {fileID: 1419274078}
   m_Layer: 5
   m_Name: Nitro
   m_TagString: Untagged
@@ -12638,6 +12706,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419274074}
   m_CullTransparentMesh: 1
+--- !u!114 &1419274078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419274074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3062f3abee7f53848869336a2b12a0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoint: {fileID: 129739211}
+  Barres:
+  - {fileID: 2014492352}
+  - {fileID: 1688293442}
+  - {fileID: 1864811548}
+  - {fileID: 322534622}
+  - {fileID: 306302403}
+  - {fileID: 73530815}
+  Categorie: 2
 --- !u!1 &1426949586
 GameObject:
   m_ObjectHideFlags: 0
@@ -14964,9 +15053,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 1024341954}
   Previous: {fileID: 1041337724}
+  Categorie: Carrosserie
   scrollRect: {fileID: 1604483335}
   content: {fileID: 928585640}
   SampleListItem: {fileID: 1658699006}
@@ -16094,7 +16184,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -412888926, guid: 9c458526bd1ecb84b978ca420b151dfa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16691,6 +16781,7 @@ GameObject:
   - component: {fileID: 1696534361}
   - component: {fileID: 1696534363}
   - component: {fileID: 1696534362}
+  - component: {fileID: 1696534364}
   m_Layer: 5
   m_Name: Top Speed
   m_TagString: Untagged
@@ -16756,6 +16847,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696534360}
   m_CullTransparentMesh: 1
+--- !u!114 &1696534364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696534360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3062f3abee7f53848869336a2b12a0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoint: {fileID: 129739211}
+  Barres:
+  - {fileID: 1247120332}
+  - {fileID: 580453761}
+  - {fileID: 282235765}
+  - {fileID: 1465651963}
+  - {fileID: 1708244640}
+  - {fileID: 425031043}
+  Categorie: 3
 --- !u!1 &1701034479
 GameObject:
   m_ObjectHideFlags: 0
@@ -17124,9 +17236,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 1706252637}
   Previous: {fileID: 788479287}
+  Categorie: Car
   scrollRect: {fileID: 1712442975}
   content: {fileID: 1694165146}
   SampleListItem: {fileID: 983273107}
@@ -17647,6 +17760,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1744516870324863782, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
+        type: 3}
+      propertyPath: startGame
+      value: 
+      objectReference: {fileID: 1638260687}
     - target: {fileID: 5119637324490161366, guid: fb2e7e1de1fd42a4b8fea5b9d31ac82b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18251,9 +18369,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 571219237}
   Previous: {fileID: 1413701076}
+  Categorie: Phares
   scrollRect: {fileID: 1844905170}
   content: {fileID: 915335224}
   SampleListItem: {fileID: 1571908522}
@@ -18466,9 +18585,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script: {fileID: 1934294050}
-  script2: {fileID: 0}
+  script2: {fileID: 1062301078}
   Next: {fileID: 1101158721}
   Previous: {fileID: 1555883989}
+  Categorie: Accessory
   scrollRect: {fileID: 1854086349}
   content: {fileID: 1448371449}
   SampleListItem: {fileID: 567742082}
@@ -19233,7 +19353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1532604550, guid: 8eced40a5a17dd24893b8d7a8d4227ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19242,7 +19362,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4.42
 --- !u!222 &2022469170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19546,7 +19666,7 @@ GameObject:
   - component: {fileID: 2081977940}
   - component: {fileID: 2081977939}
   m_Layer: 5
-  m_Name: CanvasMenu (1)
+  m_Name: CanvasStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
