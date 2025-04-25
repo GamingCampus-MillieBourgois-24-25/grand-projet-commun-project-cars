@@ -76,6 +76,7 @@ namespace AICarController
 		private Vector3 centerOfMass_ground;
 
 		private bool StopVehicle;
+		private bool previousCanMoveState;
 
 		public void start_Vehicle()
 		{
@@ -122,7 +123,14 @@ namespace AICarController
 		}
         private void Start()
         {
-			start_Vehicle();
+	        // Initialisation de l'état précédent
+	        previousCanMoveState = GameManager.Instance.CanMove;
+    
+	        // Configurer l'état initial du véhicule
+	        if (GameManager.Instance.CanMove)
+		        start_Vehicle();
+	        else
+		        stop_Vehicle();
 		}
 
         void FixedUpdate()
@@ -305,6 +313,20 @@ namespace AICarController
 					//brakeAI = 0f;
 				}
 				TurnAI = 0f;
+			}
+			
+			
+			// Surveiller les changements d'état de CanMove
+			if (GameManager.Instance.CanMove != previousCanMoveState)
+			{
+				// L'état a changé, exécuter la fonction appropriée
+				if (GameManager.Instance.CanMove)
+					start_Vehicle();
+				else
+					stop_Vehicle();
+            
+				// Mettre à jour l'état précédent
+				previousCanMoveState = GameManager.Instance.CanMove;
 			}
 
 
