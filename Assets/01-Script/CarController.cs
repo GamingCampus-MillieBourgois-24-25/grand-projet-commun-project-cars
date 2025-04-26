@@ -539,6 +539,7 @@ namespace CarController
         public float GetNitro() { return boostMaxSpeedMultiplier; }
         public float GetDrift() { return driftMultiplier; }
         
+        public void SetGravity(float gravitynumber) { gravity = gravitynumber; }
 
         #endregion
 

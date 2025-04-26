@@ -107,7 +107,11 @@ public class CustomizeCar : MonoBehaviour
             // Instancier la nouvelle voiture à la position du spawn
             carInstance = Instantiate(carData.CarInfo.carPrefab, spawnPoint.position, spawnPoint.rotation);
             carInstance.transform.SetParent(spawnPoint);
-            carInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            carInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+            carInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            carInstance.GetComponent<Rigidbody>().mass = 0.5f;
+            carInstance.GetComponent<CarController.CarController>().SetGravity(1f);
+
             Transform Mesh = carInstance.transform.Find("Mesh");
             if (Mesh != null)
             {
