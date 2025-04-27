@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, drivable, carbody, SphereRB, ingoreProjectile
 - Active game object:
-  - Name: Main Camera
-  - Tag: MainCamera
-  - Layer: TransparentFX
+  - Name: Terrain
+  - Tag: ignoreSensor
+  - Layer: drivable
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
