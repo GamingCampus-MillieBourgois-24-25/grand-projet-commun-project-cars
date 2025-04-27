@@ -209,7 +209,7 @@ public class ScrollSnapToCenter : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         action();
         script.SaveCarData();
-        yield return new WaitForSeconds(1f);
-        content.anchoredPosition = new Vector2(-(570 * Number), 0);
+        //yield return new WaitForSeconds(3f);
+        //content.anchoredPosition = new Vector2(-(570 * Number), 0);
     }
 }
