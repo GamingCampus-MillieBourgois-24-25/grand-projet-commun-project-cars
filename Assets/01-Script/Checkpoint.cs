@@ -1,32 +1,23 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using CarController;
 using UnityEngine;
 
-public class LapCounter : MonoBehaviour
+public class Checkpoint : MonoBehaviour
 {
-    
     [Header("Lap Counter")]
     [SerializeField] private string playerTag = "Joueur";
-    [SerializeField] Checkpoint script;
-    private int maxLap;
-    
-    private void Start()
-    {
-        maxLap = GameManager.Instance.MaxLap;
-    }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag))
         {
             CarController.CarController player = other.GetComponent<CarController.CarController>();
-            if (player != null & player.GetCurrentCheckpoint() == 1)
+            if (player != null)
             {
-                player.LapCompleted();
-                player.SetCurrentCheckpoint(0);
+                player.CheckpointCompleted();
             }
         }
     }
-    
+
 }

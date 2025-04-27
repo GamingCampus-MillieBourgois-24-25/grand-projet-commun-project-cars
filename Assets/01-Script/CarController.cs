@@ -72,7 +72,8 @@ namespace CarController
         private IA_Steering steeringAction;
         private float radius, steeringInput, accelerationInput, brakeInput, boostInput;
         private Vector3 origin;
-        private float currentLap;
+        private float currentLap = 1;
+        private float checkpoint;
         
         #endregion
         
@@ -134,12 +135,27 @@ namespace CarController
         {
             
             currentLap++;
-            if (currentLap == GameManager.Instance.MaxLap)
+            if (currentLap > GameManager.Instance.MaxLap)
             {
                 GameManager.Instance.RaceFinished();
             }
         }
-        
+
+        public float GetCurrentCheckpoint()
+        {
+            return checkpoint;
+        }
+
+        public void SetCurrentCheckpoint(float lap)
+        {
+            checkpoint = lap;
+        }
+
+        public void CheckpointCompleted()
+        {
+            checkpoint++;
+        }
+
         void FixedUpdate()
         {
             carVelocity = carBody.transform.InverseTransformDirection(carBody.velocity);
