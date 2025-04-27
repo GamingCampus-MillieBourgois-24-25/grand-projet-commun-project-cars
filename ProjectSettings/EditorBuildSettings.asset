@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu 1.unity
     guid: eb66fce654daf6d4e9715d501dbcc59c
+  - enabled: 1
+    path: Assets/Scenes/EndRace.unity
+    guid: 057571e17d83d7648bb0f01a23d49160
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 392ede409d0200848b1d9cba5d328567,
       type: 2}

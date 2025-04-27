@@ -134,7 +134,7 @@ namespace CarController
         {
             
             currentLap++;
-            if (currentLap > GameManager.Instance.MaxLap)
+            if (currentLap == GameManager.Instance.MaxLap)
             {
                 GameManager.Instance.RaceFinished();
             }

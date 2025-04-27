@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 4844756523511364733}
   m_Layer: 7
   m_Name: Car11
-  m_TagString: Untagged
+  m_TagString: Joueur
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

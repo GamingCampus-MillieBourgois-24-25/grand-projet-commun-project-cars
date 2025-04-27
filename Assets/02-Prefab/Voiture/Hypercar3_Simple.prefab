@@ -5635,7 +5635,7 @@ GameObject:
   - component: {fileID: 49046105195225576}
   m_Layer: 7
   m_Name: Hypercar3_Simple
-  m_TagString: Untagged
+  m_TagString: Joueur
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

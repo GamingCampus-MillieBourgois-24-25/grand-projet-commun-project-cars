@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
     public void RaceFinished()
     {
         canMove = false;
-        Debug.Log("Course terminée !");
+        SceneManager.LoadScene("EndRace");        
     }
     
     // Get the car data based on the index
