@@ -65,7 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Menu
+  m_text: 'Levels
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afcca964947895d4da2458dc7cd07413, type: 2}
   m_sharedMaterial: {fileID: -7316960511711241494, guid: afcca964947895d4da2458dc7cd07413,
@@ -879,7 +881,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Menu
+          m_StringArgument: Menu 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &5723171738410664009
