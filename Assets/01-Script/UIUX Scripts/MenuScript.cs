@@ -41,6 +41,7 @@ public class MenuScript : MonoBehaviour
     public void GoMap()
     {
         StartCoroutine(WaitToGoMap());
+        StartCoroutine(SetColor(new Color(50f / 255f, 50f / 255f, 53f / 255f)));
     }
 
     public IEnumerator SetColor(Color choice)
@@ -156,6 +157,7 @@ public class MenuScript : MonoBehaviour
     {
         script2.rotationSpeed = 0;
         Customize.SetActive(false);
+        Menu.SetActive(false);
         script.Wait();
         Transform cam = Camera.transform;
         Vector3 startPos = cam.position;

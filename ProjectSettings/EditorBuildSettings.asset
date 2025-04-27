@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Level1-DEVMAP.unity
     guid: ae671cd0ea063a749abd6472dbfad278
+  - enabled: 1
+    path: Assets/Scenes/Menu 1.unity
+    guid: eb66fce654daf6d4e9715d501dbcc59c
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 392ede409d0200848b1d9cba5d328567,
       type: 2}
