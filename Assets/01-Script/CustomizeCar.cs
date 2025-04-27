@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CustomizeCar : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class CustomizeCar : MonoBehaviour
     private int pharesIndex; // Index of the phares material
     private int rouesIndex; // Index of the roues material
     private int vitresIndex; // Index of the vitres material
+
+    [SerializeField] Image ImagePaint;
     
     // Spawn the car at the spawn point
     private void Start()
@@ -120,6 +123,21 @@ public class CustomizeCar : MonoBehaviour
                 {
                     Outline ScriptOutline = body.gameObject.AddComponent<Outline>();
                     ScriptOutline.OutlineWidth = 10;
+                    Transform Car = body.transform.GetChild(0);
+                    if (Car != null)
+                    {
+                        Transform carrosserie = Car.transform.GetChild(0);
+                        if (carrosserie != null)
+                        {
+                            Renderer rend = carrosserie.GetComponent<Renderer>();
+                            Texture2D albedoTexture = rend.material.GetTexture("_MainTex") as Texture2D;
+                            if (albedoTexture != null)
+                            {
+                                Sprite spriteFromTexture = Sprite.Create(albedoTexture, new Rect(0, 0, albedoTexture.width, albedoTexture.height), new Vector2(0.5f, 0.5f));
+                                ImagePaint.sprite = spriteFromTexture;
+                            }
+                        }
+                    }
                 }
             }
             Transform Canvas = carInstance.transform.Find("Canvas");
