@@ -5438,7 +5438,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 11
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 6075482036612902670}
   m_Follow: {fileID: 6075482036612902670}
@@ -21466,7 +21466,7 @@ MonoBehaviour:
   gravity: 7
   downforce: 5
   AirControl: 0
-  kartLike: 0
+  kartLike: 1
   rb: {fileID: 1483431899100751908}
   carBody: {fileID: 3630823015288018563}
   frictionCurve:

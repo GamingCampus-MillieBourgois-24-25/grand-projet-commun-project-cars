@@ -2,13 +2,12 @@
 - Project name: grand-projet-commun-project-cars
 - Unity version: Unity 2023.2.20f1
 - Active scene:
-  - Name: Level2
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, ignoreSensor, Body, Roue, Enemy, Joueur
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, ignoreSensor, Body, Roue, Enemy, Joueur, StartScreen
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, drivable, carbody, SphereRB, ingoreProjectile
 - Active game object:
-  - Name: Terrain
-  - Tag: ignoreSensor
-  - Layer: drivable
+  - Name: Camaro
+  - Tag: Untagged
+  - Layer: carbody
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

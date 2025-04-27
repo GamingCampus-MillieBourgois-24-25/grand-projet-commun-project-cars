@@ -14756,6 +14756,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartScreenHolo
       objectReference: {fileID: 0}
+    - target: {fileID: 9044467732420923760, guid: 4e275a8187c35ec4d8128e9503bd27a9,
+        type: 3}
+      propertyPath: m_TagString
+      value: StartScreen
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43425,6 +43430,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4697107674123550224, guid: 44da2e1a1dba02b44b1a6833e0fd68a6,
+        type: 3}
+      propertyPath: circuit
+      value: 
+      objectReference: {fileID: 4566479633485752070}
     - target: {fileID: 6307443163877996814, guid: 44da2e1a1dba02b44b1a6833e0fd68a6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -59090,6 +59100,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3180543135375326384, guid: 5a16ed952e1967b4a955d48c6cd14be8,
+        type: 3}
+      propertyPath: circuit
+      value: 
+      objectReference: {fileID: 4566479633485752070}
     - target: {fileID: 4216635381083716526, guid: 5a16ed952e1967b4a955d48c6cd14be8,
         type: 3}
       propertyPath: m_LocalPosition.x

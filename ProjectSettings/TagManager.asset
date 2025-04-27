@@ -9,6 +9,7 @@ TagManager:
   - Roue
   - Enemy
   - Joueur
+  - StartScreen
   layers:
   - Default
   - TransparentFX

@@ -5705,7 +5705,7 @@ MonoBehaviour:
   gravity: 7
   downforce: 5
   AirControl: 0
-  kartLike: 0
+  kartLike: 1
   rb: {fileID: 4831194588792738366}
   carBody: {fileID: 5657133384829276827}
   frictionCurve:
@@ -16131,7 +16131,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 11
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 4487357156385814958}
   m_Follow: {fileID: 4487357156385814958}

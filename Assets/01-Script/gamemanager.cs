@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using System.IO;
 
 public class GameManager : MonoBehaviour
@@ -19,11 +20,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxLap;
     
     [Header("Game Start")]
-    [SerializeField] private GameObject startGame;
-    [SerializeField] private bool startGameActive;
+    [SerializeField] private bool startGameActive = false;
     [SerializeField] private float ligthSequenceTime = 1f;
     [SerializeField] private float startGameTime = 2f;
     [SerializeField] private Material[] startGameMaterials;
+    private GameObject startGame;
+    [SerializeField] private string gameplaySceneName = "Level1";
     
     [SerializeField] private bool canMove = false;
     private int playerCurrentLap = 0;
@@ -52,6 +54,9 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            // S'abonner à l'événement de chargement de scène
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -62,12 +67,64 @@ public class GameManager : MonoBehaviour
         ChargerDonnees();
     } 
     
+    private void OnDestroy()
+    {
+        // Se désabonner pour éviter les fuites de mémoire
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
     private void Start()
     {
+        
+        startGame = GameObject.FindGameObjectWithTag("StartScreen");
+        
+        if (startGame == null)
+        {
+            Debug.LogWarning("Aucun GameObject avec le tag 'StartScreen' n'a été trouvé. La séquence de départ pourrait ne pas fonctionner correctement.");
+        }
+        else
+        {
+            Debug.Log("GameObject 'StartScreen' trouvé: " + startGame.name);
+        }
+        
         // Initialiser le jeu
         if (startGameActive)
         {
             StartGameSequence();
+        }
+    }
+    
+    // Méthode appelée lorsqu'une scène est chargée
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scène chargée: " + scene.name);
+        
+        // Vérifier si c'est la map 1
+        if (scene.name == gameplaySceneName)
+        {
+            // Rechercher le GameObject avec le tag "StartScreen"
+            FindStartScreenObject();
+            
+            // Initialiser la séquence de départ si nécessaire
+            if (startGameActive)
+            {
+                StartGameSequence();
+            }
+        }
+    }
+    
+    // Méthode pour chercher le GameObject StartScreen
+    private void FindStartScreenObject()
+    {
+        startGame = GameObject.FindGameObjectWithTag("StartScreen");
+
+        if (startGame == null)
+        {
+            Debug.LogWarning("Aucun GameObject avec le tag 'StartScreen' n'a été trouvé dans la map 1. La séquence de départ pourrait ne pas fonctionner correctement.");
+        }
+        else
+        {
+            Debug.Log("GameObject 'StartScreen' trouvé: " + startGame.name);
         }
     }
     
